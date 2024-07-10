@@ -1,0 +1,4 @@
+{
+  "API_KEY_MISSING": "API key no encontrada",
+  "API_KEY_INVALID": "API key inválida: {providedApiKey}"
+}
