@@ -1,12 +1,12 @@
 import Link from "next/link";
-import MaxWidthWrapper from "./MaxWidthWrapper";
-import { buttonVariants } from "./ui/button";
+import MaxWidthWrapper from "../MaxWidthWrapper";
 import { cn } from "@/lib/utils";
-import ShimmerButton from "./magicui/shimmer-button";
+import { buttonVariants } from "../ui/button";
+import { SignInButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
-    <div>
+    <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 borderb border-gray-200">
       <MaxWidthWrapper className="flex items-center justify-between py-2">
         <section className="flex items-center space-x-10">
           <Link href={"/"} className="font-bold text-xl">
@@ -14,13 +14,13 @@ const Navbar = () => {
           </Link>
           <Link
             href={"/"}
-            className="font-light text-zinc-600 hover:text-zinc-400"
+            className="font-light"
           >
             About us
           </Link>
           <Link
             href={"/"}
-            className="font-light text-zinc-600 hover:text-zinc-400"
+            className="font-light"
           >
             Resources
           </Link>
@@ -28,10 +28,12 @@ const Navbar = () => {
         <section>
           <Link
             href={"/signin"}
-          >
-            {/* <ShimmerButton> */}
-              Sign in
-            {/* </ShimmerButton> */}
+            className={cn(buttonVariants({
+              variant: "outline",
+              className: "font-light"
+            }))}
+>
+            <SignInButton />
           </Link>
         </section>
       </MaxWidthWrapper>
