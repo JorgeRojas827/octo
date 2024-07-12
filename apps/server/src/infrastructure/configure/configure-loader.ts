@@ -21,6 +21,12 @@ export const env = {
       defaultLang: 'DEFAULT_LANG',
     },
   },
+  externalServices: {
+    github: {
+      clientId: 'GITHUB_CLIENT_ID',
+      clientSecret: 'GITHUB_CLIENT_SECRET',
+    },
+  },
 };
 
 export const configLoader = () => env;

@@ -24,11 +24,17 @@ const langEnvSchema = z.object({
   DEFAULT_LANG: z.string(),
 });
 
+const githubSchema = z.object({
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+});
+
 export const envSchema = z.object({
   ...appEnvSchema.shape,
   ...dbEnvSchema.shape,
   ...throttleEnvSchema.shape,
   ...langEnvSchema.shape,
+  ...githubSchema.shape,
 });
 
 export type TEnv = z.infer<typeof envSchema>;

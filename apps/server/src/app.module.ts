@@ -1,12 +1,17 @@
+import { AuthModule } from '@infrastructure/auth/auth.module';
 import { ConfigureModule } from '@infrastructure/configure/configure.module';
+import { DatabaseModule } from '@infrastructure/database/database.module';
+import { ExternalServicesModule } from '@infrastructure/external-services/external-services.module';
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from './infrastructure/database/database.module';
-import { AuthModule } from './infrastructure/auth/auth.module';
-import { TestController } from './infrastructure/test/test.controller';
 
 @Module({
-  imports: [ConfigureModule, DatabaseModule, AuthModule],
-  controllers: [TestController],
+  imports: [
+    ConfigureModule,
+    DatabaseModule,
+    AuthModule,
+    ExternalServicesModule,
+  ],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
