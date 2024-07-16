@@ -28,3 +28,29 @@ Link: https://sharing.clickup.com/12910672/g/h/4-90170883237-7/ad619d07fa61546
 
 ![image](https://github.com/JorgeRojas827/octo-front/assets/65984374/bbd8336f-4bd9-4530-b13d-b57723c97f84)
 
+
+### Setup
+
+1. Clone the repository:
+
+```
+git clone https://github.com/JorgeRojas827/octo.git
+```
+
+2. Install dependencies
+
+Make sure to be in the root directory.
+
+```
+pnpm i
+```
+
+3. Setup enviroment variables for CLIENT
+
+Take an example in **@deployment-client** file and create an **.env** file in the root directory of Client App
+
+4. Run the project
+
+```
+pnpm dev
+```
