@@ -8,6 +8,7 @@ import { Octokit } from '@octokit/rest';
 import { I18nService } from 'nestjs-i18n';
 import { BranchesResponseDto } from '../dtos/branches-response.dto';
 import { RepositoriesResponseDto } from '../dtos/repositories-response.dto';
+import { PullRequestsResponseDto } from '../dtos/pull-requests-response.dto';
 
 @Injectable()
 export class GithubService {
@@ -100,13 +101,22 @@ export class GithubService {
     commitSha: string,
   ) {
     try {
-      const response =
+      const pullRequests =
         await this.octokit.rest.repos.listPullRequestsAssociatedWithCommit({
           owner: username,
           repo: repository,
           commit_sha: commitSha,
         });
-      return response.data;
+
+      const response: PullRequestsResponseDto[] = pullRequests.data.map(
+        (pullRequest) => ({
+          title: pullRequest.title,
+          prNumber: pullRequest.number,
+          state: pullRequest.state,
+        }),
+      );
+
+      return response;
     } catch (error) {
       throw new Error(
         this.i18n.t('github_messages.PULL_REQUESTS_NOT_FOUND', {
