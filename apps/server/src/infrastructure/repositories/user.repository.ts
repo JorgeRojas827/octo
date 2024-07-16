@@ -6,49 +6,53 @@ export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
   async upsert(userData: IUser) {
-    const { email, username, accessToken, githubId } = userData;
+    const { email, username, githubId, firstName, fullName, lastName } =
+      userData;
+
+    const info = {
+      email,
+      username,
+      lastName,
+      firstName,
+      fullName,
+      lastActiveAt: new Date(),
+    };
 
     return await this.prisma.user.upsert({
       where: { githubId },
-      update: {
-        email,
-        username,
-        accessToken,
-        lastActiveAt: new Date(),
-      },
+      update: info,
       create: {
         githubId,
-        email,
-        username,
-        accessToken,
-        lastActiveAt: new Date(),
+        ...info,
       },
     });
   }
 
   async update(id: string, userData: IUser) {
-    const { email, username, accessToken } = userData;
+    const { email, username } = userData;
 
     return await this.prisma.user.update({
       where: { id },
       data: {
         email,
         username,
-        accessToken,
         lastActiveAt: new Date(),
       },
     });
   }
 
   async create(userData: IUser) {
-    const { githubId, email, username, accessToken } = userData;
+    const { githubId, email, username, firstName, fullName, lastName } =
+      userData;
 
     return await this.prisma.user.create({
       data: {
         githubId,
         email,
         username,
-        accessToken,
+        firstName,
+        fullName,
+        lastName,
         lastActiveAt: new Date(),
       },
     });

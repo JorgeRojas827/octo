@@ -1,0 +1,6 @@
+export interface IJwtPayload {
+  iat: number;
+  exp: number;
+  sub: string;
+  email: string;
+}

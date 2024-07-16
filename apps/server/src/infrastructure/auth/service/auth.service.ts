@@ -7,6 +7,8 @@ import { JwtService } from '@nestjs/jwt';
 
 import { UserUseCases } from '@application/user/user.use-cases';
 import { IUser } from '@domain/user/interfaces/user.interface';
+import { PrismaService } from '../../database/prisma/prisma.service';
+import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -17,9 +19,10 @@ export class AuthService {
     private readonly i18n: I18nService<I18nTranslations>,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-
+    private readonly prisma: PrismaService,
     private readonly userUseCases: UserUseCases,
   ) {
+    this.userUseCases = new UserUseCases(this.prisma);
     this.apiKey = this.configService.get<string>(env.app.key);
   }
 
@@ -39,15 +42,18 @@ export class AuthService {
     }
   }
 
-  async validateUser(payload: any): Promise<any> {
+  async validateUser(payload: IJwtPayload): Promise<IUser> {
     return await this.userUseCases.getById(payload.sub);
   }
 
   async githubAuth(userData: IUser) {
-    const user = this.userUseCases.upsert(userData);
+    const user = await this.userUseCases.upsert(userData);
 
     return {
-      access_token: this.jwtService.sign({ sub: user.id, email: user.email }),
+      access_token: await this.jwtService.signAsync({
+        sub: user.id,
+        email: user.email,
+      }),
     };
   }
 }

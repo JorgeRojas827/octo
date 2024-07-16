@@ -8,6 +8,7 @@ import { env } from '@infrastructure/configure/configure-loader';
 import { JwtStrategy } from './service/jwt.strategy';
 import { UserUseCases } from '@application/user/user.use-cases';
 import { AuthController } from './controller/auth.controller';
+import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 
 @Module({
   imports: [
@@ -24,7 +25,13 @@ import { AuthController } from './controller/auth.controller';
   ],
   exports: [AuthService],
   controllers: [AuthController],
-  providers: [AuthService, AuthMiddleware, JwtStrategy, UserUseCases],
+  providers: [
+    AuthService,
+    AuthMiddleware,
+    JwtStrategy,
+    UserUseCases,
+    PrismaService,
+  ],
 })
 export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
