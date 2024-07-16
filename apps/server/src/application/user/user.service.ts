@@ -13,26 +13,26 @@ export class UserApplicationService {
   }
 
   create(user: Partial<IUser>) {
-    catchError(this.userService.create(user));
+    return catchError(this.userService.create(user));
   }
 
   getById(id: string) {
-    catchError(this.userService.getById(id));
+    return catchError(this.userService.getById(id));
   }
 
   get() {
-    catchError(this.userService.get());
+    return catchError(this.userService.get());
   }
 
   update(id: string, user: Partial<IUser>) {
-    catchError(this.userService.update(id, user));
+    return catchError(this.userService.update(id, user));
   }
 
   delete(id: string) {
-    catchError(this.userService.delete(id));
+    return catchError(this.userService.delete(id));
   }
 
-  async upsert(userData: IUser) {
-    catchError(await this.userService.upsert(userData));
+  upsert(userData: IUser) {
+    return catchError(this.userService.upsert(userData));
   }
 }
