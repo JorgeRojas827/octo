@@ -1,11 +1,13 @@
 import { GithubService } from '@infrastructure/external-services/github/service/github.service';
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Query } from '@nestjs/common';
+import { PrivateRoute } from '@infrastructure/common/decorators/auth-method.decorator';
+import { MethodEnum } from '@infrastructure/common/enums/method-enum';
 
 @Controller('github')
 export class GithubController {
   constructor(private readonly githubService: GithubService) {}
 
-  @Get()
+  @PrivateRoute(MethodEnum.GET, 'repositories')
   async getRepositories(@Query('username') username: string) {
     return this.githubService.getUserRepositories(username);
   }

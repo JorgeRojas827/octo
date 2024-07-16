@@ -1,15 +1,14 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, Delete, Get, Patch, Post, Put } from '@nestjs/common';
+import { MethodEnum } from '../enums/method-enum';
 
-export enum MethodEnum {
-  GET = 'Get',
-  POST = 'Post',
-  PUT = 'Put',
-  DELETE = 'Delete',
-  PATCH = 'Patch',
-}
+const methodMap = {
+  [MethodEnum.GET]: Get,
+  [MethodEnum.POST]: Post,
+  [MethodEnum.PUT]: Put,
+  [MethodEnum.DELETE]: Delete,
+  [MethodEnum.PATCH]: Patch,
+};
 
 export const Route = (method: MethodEnum, path: string) => {
-  const httpMethod = MethodEnum[method];
-
-  return applyDecorators(httpMethod(path));
+  return applyDecorators(methodMap[method](path));
 };

@@ -1,15 +1,23 @@
-// src/common/route.decorator.ts
-import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-guard';
-import { applyDecorators, UseGuards } from '@nestjs/common';
+import {
+  applyDecorators,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guards/jwt-guard';
+import { MethodEnum } from '../enums/method-enum';
 
-export enum Method {
-  GET = 'Get',
-  POST = 'Post',
-  PUT = 'Put',
-  DELETE = 'Delete',
-  PATCH = 'Patch',
-}
+const methodMap = {
+  [MethodEnum.GET]: Get,
+  [MethodEnum.POST]: Post,
+  [MethodEnum.PUT]: Put,
+  [MethodEnum.DELETE]: Delete,
+  [MethodEnum.PATCH]: Patch,
+};
 
-export function PrivateRoute(method: Method) {
-  return applyDecorators(Method[method](), UseGuards(JwtAuthGuard));
-}
+export const PrivateRoute = (method: MethodEnum, path: string) => {
+  return applyDecorators(methodMap[method](path), UseGuards(JwtAuthGuard));
+};
