@@ -1,0 +1,6 @@
+{
+  "REPOSITORIES_NOT_FOUND": "Failed to fetch repositories for ${username}: ${error.message}",
+  "BRANCHES_NOT_FOUND": "Failed to fetch branches for ${username} and ${repo}: ${error.message}",
+  "PULL_REQUESTS_NOT_FOUND": "Failed to fetch pull requests for ${username} and ${repo}: ${error.message}",
+  "FILES_NOT_FOUND": "Failed to fetch files from pull request number ${pull_number} for ${username} and ${repo}: ${error.message}"
+}

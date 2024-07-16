@@ -1,0 +1,6 @@
+{
+  "REPOSITORIES_NOT_FOUND": "Falló obtener repositorios para ${username}: ${error}",
+  "BRANCHES_NOT_FOUND": "Falló obtener ramas para ${username} y ${repo}: ${error.message}",
+  "PULL_REQUESTS_NOT_FOUND": "Falló obtener pull requests para ${username} y ${repo}: ${error.message}",
+  "FILES_NOT_FOUND": "Falló obtener archivos para el pull request ${pull_number} para ${username} y ${repo}: ${error.message}"
+}
