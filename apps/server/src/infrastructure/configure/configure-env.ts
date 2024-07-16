@@ -4,6 +4,9 @@ const appEnvSchema = z.object({
   APP_NAME: z.string(),
   APP_PORT: z.string().transform(Number),
   APP_KEY: z.string(),
+
+  APP_JWT_SECRET: z.string(),
+  APP_JWT_EXPIRE: z.string(),
 });
 
 const dbEnvSchema = z.object({

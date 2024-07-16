@@ -3,6 +3,11 @@ export const env = {
     port: 'APP_PORT',
     name: 'APP_NAME',
     key: 'APP_KEY',
+
+    jwt: {
+      secret: 'APP_JWT_SECRET',
+      expire: 'APP_JWT_EXPIRE',
+    },
   },
   db: {
     host: 'DB_HOST',
