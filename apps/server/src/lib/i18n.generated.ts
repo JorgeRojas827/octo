@@ -9,6 +9,12 @@ export type I18nTranslations = {
         "API_KEY_MISSING": string;
         "API_KEY_INVALID": string;
     };
+    "github_messages": {
+        "REPOSITORIES_NOT_FOUND": string;
+        "BRANCHES_NOT_FOUND": string;
+        "PULL_REQUESTS_NOT_FOUND": string;
+        "FILES_NOT_FOUND": string;
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;
