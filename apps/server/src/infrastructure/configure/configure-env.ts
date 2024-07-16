@@ -4,6 +4,9 @@ const appEnvSchema = z.object({
   APP_NAME: z.string(),
   APP_PORT: z.string().transform(Number),
   APP_KEY: z.string(),
+
+  APP_JWT_SECRET: z.string(),
+  APP_JWT_EXPIRE: z.string(),
 });
 
 const dbEnvSchema = z.object({
@@ -24,11 +27,17 @@ const langEnvSchema = z.object({
   DEFAULT_LANG: z.string(),
 });
 
+const githubSchema = z.object({
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+});
+
 export const envSchema = z.object({
   ...appEnvSchema.shape,
   ...dbEnvSchema.shape,
   ...throttleEnvSchema.shape,
   ...langEnvSchema.shape,
+  ...githubSchema.shape,
 });
 
 export type TEnv = z.infer<typeof envSchema>;
