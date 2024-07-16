@@ -11,9 +11,9 @@ import {
 export class GithubController {
   constructor(private readonly githubService: GithubService) {}
 
-  @PrivateRoute(MethodEnum.GET, '')
+  @PrivateRoute(MethodEnum.GET)
   async getRepositories(@User() user: IUserDecorator) {
-    return this.githubService.getUserRepositories(user.userId);
+    return this.githubService.getUserRepositories(user.username);
   }
 
   @PrivateRoute(MethodEnum.GET, '/branches')

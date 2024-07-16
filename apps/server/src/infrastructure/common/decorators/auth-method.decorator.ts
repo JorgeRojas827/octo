@@ -18,6 +18,6 @@ const methodMap = {
   [MethodEnum.PATCH]: Patch,
 };
 
-export const PrivateRoute = (method: MethodEnum, path: string) => {
+export const PrivateRoute = (method: MethodEnum, path: string = '') => {
   return applyDecorators(methodMap[method](path), UseGuards(JwtAuthGuard));
 };

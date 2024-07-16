@@ -7,6 +7,7 @@ import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
 import { Octokit } from '@octokit/rest';
 import { I18nService } from 'nestjs-i18n';
 import { BranchesResponseDto } from '../dtos/branches-response.dto';
+import { RepositoriesResponseDto } from '../dtos/repositories-response.dto';
 
 @Injectable()
 export class GithubService {
@@ -45,11 +46,23 @@ export class GithubService {
 
   async getUserRepositories(username: string) {
     try {
-      const response = await this.octokit.rest.repos.listForUser({
+      const repositories = await this.octokit.rest.repos.listForUser({
         username,
       });
 
-      return response.data;
+      const response: RepositoriesResponseDto[] = repositories.data.map(
+        (repository) => ({
+          id: repository.id,
+          name: repository.name,
+          full_name: repository.full_name,
+          html_url: repository.html_url,
+          created_at: repository.created_at,
+          default_branch: repository.default_branch,
+          language: repository.language,
+        }),
+      );
+
+      return response;
     } catch (error) {
       throw new Error(
         this.i18n.t('github_messages.REPOSITORIES_NOT_FOUND', {
