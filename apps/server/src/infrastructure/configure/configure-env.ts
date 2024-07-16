@@ -32,12 +32,19 @@ const githubSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string(),
 });
 
+const googleGeminiSchema = z.object({
+  GOOGLE_GEMINI_API_KEY: z.string(),
+  GOOGLE_GEMINI_MODEL: z.string(),
+  GOOGLE_GEMINI_SYSTEM_PROMPT: z.string(),
+});
+
 export const envSchema = z.object({
   ...appEnvSchema.shape,
   ...dbEnvSchema.shape,
   ...throttleEnvSchema.shape,
   ...langEnvSchema.shape,
   ...githubSchema.shape,
+  ...googleGeminiSchema.shape,
 });
 
 export type TEnv = z.infer<typeof envSchema>;

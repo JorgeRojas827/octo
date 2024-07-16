@@ -31,6 +31,11 @@ export const env = {
       clientId: 'GITHUB_CLIENT_ID',
       clientSecret: 'GITHUB_CLIENT_SECRET',
     },
+    google: {
+      geminiApiKey: 'GOOGLE_GEMINI_API_KEY',
+      geminiModel: 'GOOGLE_GEMINI_MODEL',
+      systemPrompt: 'GOOGLE_GEMINI_SYSTEM_PROMPT',
+    },
   },
 };
 
