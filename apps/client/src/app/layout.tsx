@@ -20,8 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn("bg-gradient-to-r from-[#1e0d35] to-[#0f101b]", inter.className)}>
-          <div className="fixed w-32 h-32 bg-[#8f3b76] blur-[110px] top-[30%] left-[20%]" ></div>
+        <body className={cn("bg-gradient-to-t from-[#030303] to-[#060606] antialiased", inter.className)}>
           {children}
           <Footer />
         </body>

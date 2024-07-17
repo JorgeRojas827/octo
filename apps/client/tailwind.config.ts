@@ -1,3 +1,4 @@
+import { blob } from "stream/consumers";
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -61,6 +62,7 @@ const config = {
       animation: {
         "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
         slide: "slide var(--speed) ease-in-out infinite alternate",
+        blob: "blob 7s infinite",
       },
       keyframes: {
         "spin-around": {
@@ -80,6 +82,20 @@ const config = {
         slide: {
           to: {
             transform: "translate(calc(100cqw - 100%), 0)",
+          },
+        },
+        blob: {
+          "0%": {
+            transform: "translate(0, 0) scale(1)",
+          },
+          "33%": {
+            transform: "translate(30px, -30px) scale(1.1)",
+          },
+          "66%": {
+            transform: "translate(-20px, 20px) scale(0.9)",
+          },
+          "100%": {
+            transform: "translate(0, 0) scale(1)",
           },
         },
       },
