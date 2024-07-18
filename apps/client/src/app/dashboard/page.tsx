@@ -19,9 +19,9 @@ const page = async () => {
         <DashboardHeader />
         <Separator />
         <DashboardOptions />
-        <h3 className="text-xl font-semibold mb-2">Repository Metrics / Overview</h3>
-      </MaxWidthWrapper>
-      <MaxWidthWrapper className="h-screen">
+        <h3 className="text-xl font-semibold mb-4">
+          Repository Metrics / Overview
+        </h3>
         <RepositoryMetrics />
       </MaxWidthWrapper>
     </div>
