@@ -2,8 +2,6 @@ import Link from "next/link";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
 
 const Navbar = async () => {
   

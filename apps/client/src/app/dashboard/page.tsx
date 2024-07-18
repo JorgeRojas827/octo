@@ -10,15 +10,18 @@ const page = async () => {
   const user = await currentUser();
 
   if (!user) {
-    return <Notauthorized />
+    return <Notauthorized />;
   }
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full">
       <MaxWidthWrapper>
         <DashboardHeader />
-        <Separator/>
+        <Separator />
         <DashboardOptions />
+        <h3 className="text-xl font-semibold mb-2">Repository Metrics / Overview</h3>
+      </MaxWidthWrapper>
+      <MaxWidthWrapper className="h-screen">
         <RepositoryMetrics />
       </MaxWidthWrapper>
     </div>
