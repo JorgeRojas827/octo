@@ -1,23 +1,46 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const SelectPullRequest = () => {
   return (
     <Select>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select a pull request" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Pull Requests</SelectLabel>
-            <SelectItem value="apple">Fix bug in login #1</SelectItem>
-            <SelectItem value="banana">Change Dashboard #2</SelectItem>
-            <SelectItem value="blueberry">Cahnge styles in landing #3</SelectItem>
-            <SelectItem value="grapes">Create conection with DB #4</SelectItem>
-            <SelectItem value="pineapple">Fix errors in porduction #5</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-)
-}
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Select a pull request" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Pull Requests</SelectLabel>
+          <SelectItem value="apple">
+            Fix bug in login{" "}
+            <span className="opacity-50 text-primary">/ #1</span>
+          </SelectItem>
+          <SelectItem value="banana">
+            Change Dashboard{" "}
+            <span className="opacity-50 text-primary">/ #2</span>
+          </SelectItem>
+          <SelectItem value="blueberry">
+            Cahnge styles in landing{" "}
+            <span className="opacity-50 text-primary">/ #3</span>
+          </SelectItem>
+          <SelectItem value="grapes">
+            Create conection with DB{" "}
+            <span className="opacity-50 text-primary">/ #4</span>
+          </SelectItem>
+          <SelectItem value="pineapple">
+            Fix errors in porduction{" "}
+            <span className="opacity-50 text-primary">/ #5</span>
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
 
-export default SelectPullRequest
+export default SelectPullRequest;
