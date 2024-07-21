@@ -1,14 +1,16 @@
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import api from "@/utils/setupAxios";
 
 export async function POST(req: Request) {
-
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
+    throw new Error(
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+    );
   }
 
   // Get the headers
@@ -19,19 +21,30 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Error occured -- no svix headers', {
-      status: 400
-    })
+    return new Response("Error occured -- no svix headers", {
+      status: 400,
+    });
   }
 
   // Get the body
-  const payload = await req.json()
+  const payload = await req.json();
   const body = JSON.stringify(payload);
+
+  // Transform the payload to an Object as Prisma expects it to send it to the database
+  const prismaUser = {
+    email: payload.data.email_addresses[0].email_address,
+    githubId: payload.data.email_addresses[0].id,
+    firstName: payload.data.first_name,
+    lastName: payload.data.last_name,
+    fullName: `${payload.data.first_name} ${payload.data.last_name}`,
+    username: payload.data.username,
+    lastActive: new Date(),
+  };
 
   // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
-  let evt: WebhookEvent
+  let evt: WebhookEvent;
 
   // Verify the payload with the headers
   try {
@@ -39,22 +52,37 @@ export async function POST(req: Request) {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
-    }) as WebhookEvent
+    }) as WebhookEvent;
   } catch (err) {
-    console.error('Error verifying webhook:', err);
-    return new Response('Error occured', {
-      status: 400
-    })
+    console.error("Error verifying webhook:", err);
+    return new Response("Error occured", {
+      status: 400,
+    });
   }
 
-  // Do something with the payload
-  // For this guide, you simply log the payload to the console
-  const { id } = evt.data;
   const eventType = evt.type;
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
-  console.log('Webhook body:', body)
+  console.log("Event type: ", eventType);
+  // Here we have to register the user in our database with axios
+  if (eventType === "user.created" || eventType === "user.updated") {
+    try {
+      const response = await fetch("http://localhost:3001/auth/github", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.API_KEY!,
+        },
+        body: JSON.stringify(prismaUser),
+      });
 
-  // Here we have to register the user in our database
+      console.log("User registered: ", response);
+    } catch (error) {
+      console.error("Error registering user: ", error);
+      return new Response("Error occured while registering user", {
+        status: 500
+      })
+    }
+  }
 
-  return new Response('', { status: 200 })
+
+  return new Response("", { status: 200 });
 }
