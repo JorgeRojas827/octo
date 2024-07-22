@@ -7,27 +7,11 @@ import {
   User,
 } from '@infrastructure/common/decorators/user.decorator';
 
-@Controller('github/repositories')
-export class GithubController {
+@Controller('github/pulls')
+export class GithubPullsController {
   constructor(private readonly githubService: GithubService) {}
 
   @PrivateRoute(MethodEnum.GET)
-  async getRepositories(@User() user: IUserDecorator) {
-    return this.githubService.getUserRepositories(user.username);
-  }
-
-  @PrivateRoute(MethodEnum.GET, '/branches')
-  async getRepositoryBranches(
-    @Query('repository') repository: string,
-    @User() user: IUserDecorator,
-  ) {
-    return this.githubService.getBranchesByRepository(
-      repository,
-      user.username,
-    );
-  }
-
-  @PrivateRoute(MethodEnum.GET, '/branches/pull-requests')
   async getPullRequestsCommit(
     @Query('repository') repository: string,
     @Query('commitSha') commitSha: string,
@@ -40,13 +24,26 @@ export class GithubController {
     );
   }
 
-  @PrivateRoute(MethodEnum.GET, '/branches/pull-requests-files')
+  @PrivateRoute(MethodEnum.GET, '/files')
   async getPullRequestsFiles(
     @Query('repository') repository: string,
     @Query('pullNumber') pullNumber: string,
     @User() user: IUserDecorator,
   ) {
     return this.githubService.getPullRequestsFiles(
+      repository,
+      user.username,
+      Number(pullNumber),
+    );
+  }
+
+  @PrivateRoute(MethodEnum.POST, '/start-review')
+  async pullRequestStartReview(
+    @Query('repository') repository: string,
+    @Query('pullNumber') pullNumber: string,
+    @User() user: IUserDecorator,
+  ) {
+    return this.githubService.pullRequestStartReview(
       repository,
       user.username,
       Number(pullNumber),
