@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs/server";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
 
-import { signIn, useSession } from "next-auth/react";
-import { Button } from "@/common/components/ui/button";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const session = useSession();
+
+  console.log({ session });
 
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
@@ -24,7 +24,8 @@ const Navbar = () => {
           </Link>
         </section>
         <section className="flex items-center gap-x-4">
-          <button onClick={() => signIn("github")}>Sigin Github</button>
+          <button onClick={() => signIn("github")}>Sign In</button>
+          <button onClick={() => signOut()}>Log out</button>
         </section>
       </MaxWidthWrapper>
     </div>

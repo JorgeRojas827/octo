@@ -4,6 +4,18 @@ import NextAuth from "next-auth";
 
 import { githubInstance } from "@/lib/axios/instances";
 import api from "@/lib/setup-axios";
+import { cookies } from "next/headers";
+
+const AUTH_COOKIE_KEY = process.env.AUTH_COOKIE_KEY!;
+
+const setAuthCookie = (token: string) => {
+  cookies().set(AUTH_COOKIE_KEY, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  });
+};
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -35,6 +47,7 @@ export const authOptions: AuthOptions = {
           fullName: githubData.name,
         });
 
+        setAuthCookie(userData.access_token);
         session.user.id = token.uid as string;
         session.user.username = githubData.login;
       }
