@@ -1,10 +1,13 @@
+"use client";
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
 
-const Navbar = async () => {
-  const user = await currentUser();
+import { signIn, useSession } from "next-auth/react";
+import { Button } from "@/common/components/ui/button";
+
+const Navbar = () => {
+  const session = useSession();
 
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
@@ -21,20 +24,7 @@ const Navbar = async () => {
           </Link>
         </section>
         <section className="flex items-center gap-x-4">
-          {user && (
-            <Link href={"/dashboard"} className="text-sm font-semibold">
-              Dashboard
-            </Link>
-          )}
-          <SignedOut>
-            <SignInButton
-              fallbackRedirectUrl={"/dashboard"}
-              forceRedirectUrl={"/dashboard"}
-            />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <button onClick={() => signIn("github")}>Sigin Github</button>
         </section>
       </MaxWidthWrapper>
     </div>
