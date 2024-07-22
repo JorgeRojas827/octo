@@ -1,10 +1,11 @@
-import DashboardHeader from "@/components/Dashboard/DashboardHeader";
-import DashboardOptions from "@/components/Dashboard/DashboardOptions";
-import RepositoryMetrics from "@/components/Dashboard/RepositoryMetrics";
-import Notauthorized from "@/components/Notauthorized";
-import { Separator } from "@/components/ui/separator";
 import { currentUser } from "@clerk/nextjs/server";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { Separator } from "@radix-ui/react-select";
+
+import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
+import Notauthorized from "@/common/components/utils/not-authorized";
+import DashboardHeader from "@/modules/dashboard/dashboard-header";
+import RepositoryMetrics from "@/modules/dashboard/components/repository-metrics";
+import DashboardOptions from "@/modules/dashboard/dashboard-options";
 
 const page = async () => {
   const user = await currentUser();
