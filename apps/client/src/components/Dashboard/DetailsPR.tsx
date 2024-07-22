@@ -1,4 +1,4 @@
-import { GitBranch, GitCommitHorizontal, GitCommitVertical, Users2Icon } from "lucide-react";
+import { GitBranch, GitCommitVertical, Users2Icon } from "lucide-react";
 
 const DetailsPR = () => {
   return (

@@ -63,6 +63,7 @@ const config = {
         "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
         slide: "slide var(--speed) ease-in-out infinite alternate",
         blob: "blob 7s infinite",
+        tilt: "tilt 10s infinite linear",
       },
       keyframes: {
         "spin-around": {
@@ -96,6 +97,17 @@ const config = {
           },
           "100%": {
             transform: "translate(0, 0) scale(1)",
+          },
+        },
+        tilt: {
+          "0%, 50%, 100%": {
+            transform: "rotate(0deg)",
+          },
+          "25%": {
+            transform: "rotate(0.5deg)",
+          },
+          "75%": {
+            transform: "rotate(-0.5deg)",
           },
         },
       },
