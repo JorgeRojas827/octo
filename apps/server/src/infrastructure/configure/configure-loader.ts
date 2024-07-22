@@ -35,6 +35,7 @@ export const env = {
       geminiApiKey: 'GOOGLE_GEMINI_API_KEY',
       geminiModel: 'GOOGLE_GEMINI_MODEL',
       systemPrompt: 'GOOGLE_GEMINI_SYSTEM_PROMPT',
+      userPrompt: 'GOOGLE_GEMINI_USER_PROMPT',
     },
   },
 };

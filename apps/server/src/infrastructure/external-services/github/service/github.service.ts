@@ -9,17 +9,24 @@ import { I18nService } from 'nestjs-i18n';
 import { BranchesResponseDto } from '../dtos/branches-response.dto';
 import { RepositoriesResponseDto } from '../dtos/repositories-response.dto';
 import { PullRequestsResponseDto } from '../dtos/pull-requests-response.dto';
+import { VercelService } from '@infrastructure/external-services/vercel/service/vercel.service';
+import {
+  isProgrammingFile,
+  delay,
+} from '@infrastructure/common/utils/transformers';
 
 @Injectable()
 export class GithubService {
   private logger = new Logger(GithubService.name);
   private octokit: Octokit;
+  private prObjectKey = '{{PR_OBJECT}}';
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly userUseCases: UserUseCases,
     private readonly configService: ConfigService,
     private readonly i18n: I18nService,
+    private readonly vercelService: VercelService,
   ) {
     this.userUseCases = new UserUseCases(this.prisma);
     this.configureOctokit();
@@ -151,4 +158,67 @@ export class GithubService {
       );
     }
   }
+
+  async pullRequestStartReview(
+    repository: string,
+    username: string,
+    pull_number: number,
+  ) {
+    const files = await this.getPullRequestsFiles(
+      repository,
+      username,
+      pull_number,
+    );
+
+    const USER_PROMPT = this.configService.get<string>(
+      env.externalServices.google.userPrompt,
+    );
+    const batchSize = 5;
+    const concurrencyLimit = 3;
+
+    const programmingFiles = files.filter((file) =>
+      isProgrammingFile(file.filename),
+    );
+
+    const results = [];
+
+    for (let i = 0; i < programmingFiles.length; i += batchSize) {
+      const batch = programmingFiles.slice(i, i + batchSize);
+      let activeTasks = 0;
+      const batchResults = [];
+
+      for (const file of batch) {
+        while (activeTasks >= concurrencyLimit) {
+          await delay(100);
+        }
+
+        activeTasks++;
+
+        this.processFile(file, USER_PROMPT)
+          .then((result) => {
+            batchResults.push(result);
+            activeTasks--;
+          })
+          .catch(() => {
+            activeTasks--;
+          });
+      }
+
+      while (activeTasks > 0) {
+        await delay(100);
+      }
+
+      results.push(...batchResults);
+    }
+
+    return results;
+  }
+
+  processFile = async (file: any, userPrompt) => {
+    const automatedReview = await this.vercelService.generate(
+      userPrompt.replace(this.prObjectKey, JSON.stringify(file.patch)),
+    );
+
+    return { filename: file.filename, automatedReview };
+  };
 }

@@ -14,6 +14,7 @@ export type I18nTranslations = {
         "BRANCHES_NOT_FOUND": string;
         "PULL_REQUESTS_NOT_FOUND": string;
         "FILES_NOT_FOUND": string;
+        "REVIEW_FAILED": string;
     };
 };
 /* prettier-ignore */

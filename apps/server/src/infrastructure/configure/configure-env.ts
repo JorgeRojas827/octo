@@ -36,6 +36,7 @@ const googleGeminiSchema = z.object({
   GOOGLE_GEMINI_API_KEY: z.string(),
   GOOGLE_GEMINI_MODEL: z.string(),
   GOOGLE_GEMINI_SYSTEM_PROMPT: z.string(),
+  GOOGLE_GEMINI_USER_PROMPT: z.string(),
 });
 
 export const envSchema = z.object({

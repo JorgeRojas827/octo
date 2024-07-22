@@ -58,12 +58,13 @@ export class VercelService {
   }
 
   async generate(input: string) {
-    return (
-      await generateText({
-        model: this.model,
-        system: this.systemPrompt,
-        messages: [{ role: 'user', content: input }],
-      })
-    ).text;
+    const result = await generateText({
+      model: this.model,
+      system: this.systemPrompt,
+      prompt: input,
+      maxRetries: 1,
+    });
+
+    return result.text;
   }
 }
