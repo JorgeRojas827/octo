@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getAllBranches } from "../services/branches.service";
 import { IBranch } from "../interfaces/branch.interface";
+import { usePullRequestsStore } from "./pull-requests.store";
 
 interface IBranchesState {
   selectedBranch: string;
@@ -9,6 +10,7 @@ interface IBranchesState {
   branches: IBranch[];
   fetchAllBranches: (repository: string) => Promise<void>;
   clearSelectedBranch: () => Promise<void>;
+  branchesLoading: boolean;
 }
 
 export const useBranchesStore = create<IBranchesState>((set, get) => ({
@@ -19,12 +21,28 @@ export const useBranchesStore = create<IBranchesState>((set, get) => ({
       selectedBranchObject: get().branches.find((b) => b.name === branch),
     }));
   },
+  branchesLoading: true,
   selectedBranchObject: {} as IBranch,
   selectedBranch: "",
   fetchAllBranches: async (repository: string) => {
-    const branches = await getAllBranches(repository);
+    const response = await getAllBranches(repository);
+    set(() => ({ branchesLoading: false }));
 
-    set(() => ({ branches: branches.data }));
+    usePullRequestsStore.setState((prevState) => ({
+      ...prevState,
+      countPRs: {
+        closedPRs: response.data.closedPRs,
+        mergedPRs: response.data.mergedPRs,
+        openPRs: response.data.openPRs,
+        totalPRs: response.data.totalPRs,
+      },
+    }));
+    usePullRequestsStore.setState((prevState) => ({
+      ...prevState,
+      countPRLoading: false,
+    }));
+
+    set(() => ({ branches: response.data.branches }));
   },
   clearSelectedBranch: () =>
     new Promise((resolve) => {

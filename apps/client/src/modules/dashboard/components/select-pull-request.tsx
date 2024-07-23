@@ -23,6 +23,7 @@ const SelectPullRequest = () => {
     selectedPR,
     setSelectedPR,
     clearPullRequest,
+    pullRequestsLoading,
   } = usePullRequestsStore();
 
   useEffect(() => {
@@ -39,7 +40,10 @@ const SelectPullRequest = () => {
       onValueChange={setSelectedPR}
       value={selectedPR}
     >
-      <SelectTrigger className="w-full">
+      <SelectTrigger
+        disabled={pullRequestsLoading && !!enabled}
+        className="w-full"
+      >
         <SelectValue
           placeholder={
             pullRequests.length ? "Select a pull request" : "Nothing is here"

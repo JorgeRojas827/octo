@@ -87,12 +87,23 @@ export class GithubService {
         repo: repository,
       });
 
+      const pulls = await this.octokit.pulls.list({
+        owner: username,
+        repo: repository,
+        state: 'all',
+      });
+
+      const totalPRs = pulls.data.length;
+      const openPRs = pulls.data.filter((pr) => pr.state === 'open').length;
+      const closedPRs = pulls.data.filter((pr) => pr.state === 'closed').length;
+      const mergedPRs = pulls.data.filter((pr) => pr.merged_at !== null).length;
+
       const response: BranchesResponseDto[] = branches.data.map((branch) => ({
         name: branch.name,
         commitSha: branch.commit.sha,
       }));
 
-      return response;
+      return { branches: response, totalPRs, openPRs, closedPRs, mergedPRs };
     } catch (error) {
       throw new Error(
         this.i18n.t('github_messages.BRANCHES_NOT_FOUND', {

@@ -20,6 +20,7 @@ export const SelectBranches = () => {
     selectedBranch,
     fetchAllBranches,
     clearSelectedBranch,
+    branchesLoading,
   } = useBranchesStore();
 
   useEffect(() => {
@@ -30,11 +31,14 @@ export const SelectBranches = () => {
 
   return (
     <Select
-      disabled={!selectedRepo}
+      disabled={!selectedRepo || branchesLoading}
       onValueChange={setSelectedBranch}
       value={selectedBranch}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger
+        disabled={branchesLoading && !!selectedRepo}
+        className="w-[180px]"
+      >
         <SelectValue placeholder="Branch" />
       </SelectTrigger>
       <SelectContent>

@@ -7,6 +7,7 @@ interface IRepositoriesState {
   setSelectedRepo: (repo: string) => void;
   repositories: IRepository[];
   fetchAllRepositories: () => Promise<void>;
+  repositoriesLoading: boolean;
 }
 
 export const useRepositoriesStore = create<IRepositoriesState>((set) => ({
@@ -15,7 +16,9 @@ export const useRepositoriesStore = create<IRepositoriesState>((set) => ({
   repositories: [],
   fetchAllRepositories: async () => {
     const repos = await getAllRepositories();
+    set(() => ({ repositoriesLoading: false }));
 
     set(() => ({ repositories: repos.data }));
   },
+  repositoriesLoading: true,
 }));
