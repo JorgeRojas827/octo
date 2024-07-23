@@ -27,6 +27,7 @@ export class AuthService {
   }
 
   validateApiKey(providedApiKey: string): void {
+    console.log(providedApiKey);
     if (!providedApiKey) {
       const errorMessage = this.i18n.t('error_messages.API_KEY_MISSING');
       this.logger.warn(errorMessage);

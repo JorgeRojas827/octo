@@ -1,9 +1,6 @@
-"use client";
 import Link from "next/link";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
-
-import { signIn } from "next-auth/react";
-import { GithubIcon } from "lucide-react";
+import { SignInButton } from "./components/sign-in-button";
 
 const Navbar = () => {
   return (
@@ -21,10 +18,7 @@ const Navbar = () => {
           </Link>
         </section>
         <section className="flex items-center gap-x-5">
-          <button className="flex space-x-3" onClick={() => signIn("github")}>
-            <GithubIcon />
-            <span>Sign In</span>
-          </button>
+          <SignInButton />
         </section>
       </MaxWidthWrapper>
     </div>

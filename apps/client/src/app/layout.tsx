@@ -5,6 +5,8 @@ import { cn } from "@/lib/cn";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Provider from "@/common/helpers/client-provider";
+import { setupAxios } from "@/common/helpers/axios-helper";
+import { apiInstance } from "@/lib/axios/instances";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
   title: "Octo",
   description: "Dashboard for managing your repositories with AI",
 };
+
+setupAxios(apiInstance);
 
 export default async function RootLayout({
   children,

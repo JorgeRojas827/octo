@@ -1,40 +1,53 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { apiInstance } from "../../lib/axios/instances";
 import {
   IGithubLoginRequest,
   IGithubLoginToken,
 } from "@/common/interfaces/auth-interface";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { signOut } from "next-auth/react";
 
 const POST_USER_URL = process.env.API_POST_USER_URL!;
 
-apiInstance.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (err: AxiosError) => Promise.reject(err)
-);
+export const setupAxios = (axiosInstance: AxiosInstance) => {
+  axiosInstance.interceptors.request.use(
+    async (config) => {
+      const session = await getServerSession(authOptions);
 
-apiInstance.interceptors.response.use(
-  (response) => response,
-  (error: AxiosError) => {
-    const { data, status } = error.response!;
-    switch (status) {
-      case 400:
-        console.error(data);
-        break;
-      case 401:
-        console.error("unauthorised");
-        break;
-      case 404:
-        console.error("/not-found");
-        break;
-      case 500:
-        console.error("/server-error");
-        break;
+      axiosInstance.defaults.headers.common["Authorization"] =
+        `Bearer ${session?.accessToken}`;
+      axiosInstance.defaults.headers["x-api-key"] =
+        process.env.NEXT_PUBLIC_API_KEY!;
+      return config;
+    },
+    (err: AxiosError) => Promise.reject(err)
+  );
+
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      const { data, status } = error.response!;
+      switch (status) {
+        case 400:
+          console.error(data);
+          break;
+        case 401:
+          console.log({ error });
+
+          signOut();
+          break;
+        case 404:
+          console.error("/not-found");
+          break;
+        case 500:
+          console.error("/server-error");
+          break;
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
-);
+  );
+};
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 

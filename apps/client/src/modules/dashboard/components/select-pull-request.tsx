@@ -1,42 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectItem,
-} from "@radix-ui/react-select";
+} from "@/common/components/ui/select";
+import { usePullRequestsStore } from "../store/pull-requests.store";
+import { useEffect } from "react";
+import { useBranchesStore } from "../store/branch.store";
+import { useRepositoriesStore } from "../store/repository.store";
 
 const SelectPullRequest = () => {
+  const { selectedBranchObject } = useBranchesStore();
+  const { selectedRepo } = useRepositoriesStore();
+  const enabled = selectedBranchObject.commitSha && selectedRepo;
+  const {
+    fetchAllPullRequests,
+    pullRequests,
+    selectedPR,
+    setSelectedPR,
+    clearPullRequest,
+  } = usePullRequestsStore();
+
+  useEffect(() => {
+    if (enabled) {
+      clearPullRequest().then(() =>
+        fetchAllPullRequests(selectedRepo, selectedBranchObject.commitSha)
+      );
+    }
+  }, [selectedBranchObject.commitSha, selectedRepo]);
+
   return (
-    <Select>
+    <Select
+      disabled={!enabled || !pullRequests.length}
+      onValueChange={setSelectedPR}
+      value={selectedPR}
+    >
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select a pull request" />
+        <SelectValue
+          placeholder={
+            pullRequests.length ? "Select a pull request" : "Nothing is here"
+          }
+        />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Pull Requests</SelectLabel>
-          <SelectItem value="apple">
-            Fix bug in login{" "}
-            <span className="opacity-50 text-primary">/ #1</span>
-          </SelectItem>
-          <SelectItem value="banana">
-            Change Dashboard{" "}
-            <span className="opacity-50 text-primary">/ #2</span>
-          </SelectItem>
-          <SelectItem value="blueberry">
-            Cahnge styles in landing{" "}
-            <span className="opacity-50 text-primary">/ #3</span>
-          </SelectItem>
-          <SelectItem value="grapes">
-            Create conection with DB{" "}
-            <span className="opacity-50 text-primary">/ #4</span>
-          </SelectItem>
-          <SelectItem value="pineapple">
-            Fix errors in porduction{" "}
-            <span className="opacity-50 text-primary">/ #5</span>
-          </SelectItem>
+          {pullRequests &&
+            pullRequests.map((pullRequest) => (
+              <SelectItem key={pullRequest.prNumber} value={pullRequest.title}>
+                {pullRequest.title}
+                <span className="opacity-50 text-primary">
+                  / #{pullRequest.prNumber}
+                </span>
+              </SelectItem>
+            ))}
         </SelectGroup>
       </SelectContent>
     </Select>

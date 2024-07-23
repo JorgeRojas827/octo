@@ -8,9 +8,9 @@ export const githubInstance = axios.create({
 });
 
 export const apiInstance = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
-    "x-api-key": process.env.API_KEY,
+    "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
   },
 });
