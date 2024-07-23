@@ -1,10 +1,10 @@
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectTrigger,
+  SelectValue,
+} from "@/common/components/ui/select";
 
 const DashboardOptions = () => {
   return (

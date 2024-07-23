@@ -2,16 +2,13 @@
 import Link from "next/link";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { GithubIcon } from "lucide-react";
 
 const Navbar = () => {
-  const session = useSession();
-
-  console.log({ session });
-
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
-      <MaxWidthWrapper className="flex items-center justify-between py-2">
+      <MaxWidthWrapper className="flex items-center justify-between py-3.5">
         <section className="flex items-center space-x-10">
           <Link href={"/"} className="font-bold text-xl">
             Octo
@@ -23,9 +20,11 @@ const Navbar = () => {
             Resources
           </Link>
         </section>
-        <section className="flex items-center gap-x-4">
-          <button onClick={() => signIn("github")}>Sign In</button>
-          <button onClick={() => signOut()}>Log out</button>
+        <section className="flex items-center gap-x-5">
+          <button className="flex space-x-3" onClick={() => signIn("github")}>
+            <GithubIcon />
+            <span>Sign In</span>
+          </button>
         </section>
       </MaxWidthWrapper>
     </div>

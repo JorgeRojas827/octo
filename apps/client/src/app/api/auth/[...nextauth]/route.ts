@@ -34,29 +34,30 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
-      const { data: githubData } = await githubInstance.get(
-        `/user/${token.uid}`
-      );
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        const { data: githubData } = await githubInstance.get(
+          `/user/${user.id}`
+        );
 
-      if (session?.user) {
         const { data: userData } = await api.users.register({
-          email: session.user.email,
-          githubId: token.uid,
+          email: user.email,
+          githubId: user.id,
           username: githubData.login,
           fullName: githubData.name,
         });
 
-        setAuthCookie(userData.access_token);
-        session.user.id = token.uid as string;
-        session.user.username = githubData.login;
+        token.accessToken = userData.access_token;
+        token.userId = user.id;
+        token.username = githubData.login;
       }
-      return session;
-    },
-    jwt: async ({ user, token }) => {
-      if (user) token.uid = user.id;
-
       return token;
+    },
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      session.user!.id = token.userId!;
+      session.user!.username = token.username!;
+      return session;
     },
   },
   session: {

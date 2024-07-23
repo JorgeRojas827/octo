@@ -1,6 +1,7 @@
 import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 import Cookies from "js-cookie";
+import { getToken } from "next-auth/jwt";
 
 const auth_cookie = process.env.AUTH_COOKIE_KEY!;
 
@@ -13,11 +14,11 @@ const redirectToDashboard = (req: NextRequest) => {
 };
 
 export async function middleware(req: NextRequest) {
-  const sessionCookie = Cookies.get(auth_cookie);
+  const token = await getToken({ req, secret: process.env.APP_JWT_SECRET });
+  const sessionCookie = token?.accessToken;
+
   const secretJWT = process.env.APP_JWT_SECRET;
   const currentUrl = req.nextUrl.pathname;
-
-  console.log({ sessionCookie });
 
   if (currentUrl.includes("/api/auth")) return;
 

@@ -6,11 +6,14 @@ declare module "next-auth" {
       id: string;
       username: string;
     };
+    accessToken?: string;
   }
 }
 
-declare module "next-auth/jwt/types" {
+declare module "next-auth/jwt" {
   interface JWT {
-    uid: string;
+    accessToken?: string;
+    userId?: string;
+    username?: string;
   }
 }
