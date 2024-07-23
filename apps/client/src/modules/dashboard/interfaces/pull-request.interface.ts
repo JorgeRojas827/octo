@@ -6,4 +6,11 @@ export interface IPullRequest {
   state: string;
 }
 
+export interface IPullRequestCounter {
+  totalPRs: number;
+  openPRs: number;
+  closedPRs: number;
+  mergedPRs: number;
+}
+
 export interface IPullRequestResponse extends IHttpResponse<IPullRequest[]> {}

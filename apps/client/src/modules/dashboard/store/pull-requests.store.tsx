@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { getAllPullRequests } from "../services/pull-request.service";
-import { IPullRequest } from "../interfaces/pull-request.interface";
+import {
+  IPullRequest,
+  IPullRequestCounter,
+} from "../interfaces/pull-request.interface";
 
 interface IPullRequestsState {
   selectedPR: string;
@@ -10,7 +13,10 @@ interface IPullRequestsState {
     repository: string,
     commitSha: string
   ) => Promise<void>;
+  pullRequestsLoading: boolean;
   clearPullRequest: () => Promise<void>;
+  countPRs: IPullRequestCounter | null;
+  countPRLoading: boolean;
 }
 
 export const usePullRequestsStore = create<IPullRequestsState>((set) => ({
@@ -19,6 +25,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set) => ({
   pullRequests: [],
   fetchAllPullRequests: async (repository: string, commitSha: string) => {
     const pullRequests = await getAllPullRequests(repository, commitSha);
+    set(() => ({ pullRequestsLoading: false }));
 
     set(() => ({ pullRequests: pullRequests.data || [] }));
   },
@@ -27,4 +34,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set) => ({
       set(() => ({ selectedPR: "" }));
       resolve();
     }),
+  pullRequestsLoading: true,
+  countPRLoading: true,
+  countPRs: null,
 }));

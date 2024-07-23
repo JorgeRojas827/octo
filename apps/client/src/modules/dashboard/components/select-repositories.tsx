@@ -12,16 +12,25 @@ import {
 import { useRepositoriesStore } from "../store/repository.store";
 
 export const SelectRepositories = () => {
-  const { setSelectedRepo, selectedRepo, repositories, fetchAllRepositories } =
-    useRepositoriesStore();
+  const {
+    setSelectedRepo,
+    selectedRepo,
+    repositories,
+    fetchAllRepositories,
+    repositoriesLoading,
+  } = useRepositoriesStore();
 
   useEffect(() => {
     fetchAllRepositories();
   }, []);
 
   return (
-    <Select onValueChange={setSelectedRepo} value={selectedRepo}>
-      <SelectTrigger className="w-[180px]">
+    <Select
+      onValueChange={setSelectedRepo}
+      disabled={repositoriesLoading}
+      value={selectedRepo}
+    >
+      <SelectTrigger disabled={repositoriesLoading} className="w-[180px]">
         <SelectValue placeholder="Repository" />
       </SelectTrigger>
       <SelectContent>
