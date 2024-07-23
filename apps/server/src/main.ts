@@ -15,6 +15,7 @@ async function bootstrap() {
   const reflector = new Reflector();
   app.useGlobalInterceptors(new ApiResponseInterceptor(reflector));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+  app.enableCors();
 
   const port = config.get<number>(env.app.port);
   await app.listen(port, () => logger.log(`Server started on port ${port}`));

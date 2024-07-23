@@ -1,14 +1,11 @@
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
+import { SignInButton } from "./components/sign-in-button";
 
-const Navbar = async () => {
-  const user = await currentUser();
-
+const Navbar = () => {
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
-      <MaxWidthWrapper className="flex items-center justify-between py-2">
+      <MaxWidthWrapper className="flex items-center justify-between py-3.5">
         <section className="flex items-center space-x-10">
           <Link href={"/"} className="font-bold text-xl">
             Octo
@@ -20,21 +17,8 @@ const Navbar = async () => {
             Resources
           </Link>
         </section>
-        <section className="flex items-center gap-x-4">
-          {user && (
-            <Link href={"/dashboard"} className="text-sm font-semibold">
-              Dashboard
-            </Link>
-          )}
-          <SignedOut>
-            <SignInButton
-              fallbackRedirectUrl={"/dashboard"}
-              forceRedirectUrl={"/dashboard"}
-            />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+        <section className="flex items-center gap-x-5">
+          <SignInButton />
         </section>
       </MaxWidthWrapper>
     </div>
