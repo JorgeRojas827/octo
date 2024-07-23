@@ -3,19 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import NextAuth from "next-auth";
 
 import { githubInstance } from "@/lib/axios/instances";
-import api from "@/lib/setup-axios";
-import { cookies } from "next/headers";
-
-const AUTH_COOKIE_KEY = process.env.AUTH_COOKIE_KEY!;
-
-const setAuthCookie = (token: string) => {
-  cookies().set(AUTH_COOKIE_KEY, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    path: "/",
-  });
-};
+import api from "@/common/helpers/axios-helper";
 
 export const authOptions: AuthOptions = {
   providers: [

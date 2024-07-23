@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { apiInstance } from "./axios/instances";
+import { apiInstance } from "../../lib/axios/instances";
 import {
   IGithubLoginRequest,
   IGithubLoginToken,
