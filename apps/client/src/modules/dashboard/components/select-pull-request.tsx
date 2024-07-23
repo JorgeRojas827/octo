@@ -54,11 +54,15 @@ const SelectPullRequest = () => {
         <SelectGroup>
           {pullRequests &&
             pullRequests.map((pullRequest) => (
-              <SelectItem key={pullRequest.prNumber} value={pullRequest.title}>
-                {pullRequest.title}
-                <span className="opacity-50 text-primary">
-                  / #{pullRequest.prNumber}
+              <SelectItem
+                key={pullRequest.prNumber}
+                value={pullRequest.title}
+                className="overflow-hidden flex items-center gap-x-2"
+              >
+                <span className="text-purple-600">
+                  # {pullRequest.prNumber}{" "}
                 </span>
+                <span className="opacity-75">/ {pullRequest.title}</span>
               </SelectItem>
             ))}
         </SelectGroup>

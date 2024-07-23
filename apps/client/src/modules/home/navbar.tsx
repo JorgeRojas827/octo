@@ -2,10 +2,20 @@ import Link from "next/link";
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
 import { SignInButton } from "./components/sign-in-button";
 
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/common/components/ui/sheet";
+import { Button } from "@/common/components/ui/button";
+
 const Navbar = () => {
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
-      <MaxWidthWrapper className="flex items-center justify-between py-3.5">
+      {/* Navbar Desktop */}
+      <MaxWidthWrapper className="hidden md:flex items-center justify-between py-3.5">
         <section className="flex items-center space-x-10">
           <Link href={"/"} className="font-bold text-xl">
             Octo
@@ -17,9 +27,52 @@ const Navbar = () => {
             Resources
           </Link>
         </section>
-        <section className="flex items-center gap-x-5">
+        <section>
           <SignInButton />
         </section>
+      </MaxWidthWrapper>
+
+      {/* Navbar Mobile */}
+      <MaxWidthWrapper className="block py-1 mt-1 md:hidden">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0 md:hidden"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent
+            side="left"
+            aria-describedby="mobile-menu"
+            className="flex flex-col"
+          >
+            <SheetTitle>
+              <Link href={"/"} className="text-2xl font-bold">
+                Octo
+              </Link>
+            </SheetTitle>
+            <nav className="flex flex-col justify-between" id="mobile-menu">
+              <div className="flex flex-col gap-y-4">
+                <Link
+                  href={"/menu"}
+                  className="font-medium text-zinc-400 hover:text-primary"
+                >
+                  About us
+                </Link>
+                <Link
+                  href={"/discounts"}
+                  className="font-medium text-zinc-400 hover:text-primary"
+                >
+                  Resources
+                </Link>
+                <SignInButton />
+              </div>
+            </nav>
+          </SheetContent>
+        </Sheet>
       </MaxWidthWrapper>
     </div>
   );

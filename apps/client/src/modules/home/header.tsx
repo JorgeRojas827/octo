@@ -4,14 +4,14 @@ const Header = () => {
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <MaxWidthWrapper className="relative flex flex-col items-center justify-center">
-        <div className="relative z-20 flex flex-col items-center justify-center">
-          <h1 className="text-7xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+        <div className="relative z-20 flex flex-col items-center justify-center gap-y-4 md:gap-0">
+          <h1 className="text-6xl  md:text-8xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
             AI Powered Code Review
           </h1>
-          <h2 className="text-4xl font-bold  ">
-            Analyze metrics + Provide Insights + Optimize Future PRs
+          <h2 className="text-2xl md:text-4xl font-bold">
+            Analyze metrics / Provide Insights / Optimize Future PRs
           </h2>
-          <p className="text-center text-lg px-44">
+          <p className="md:text-center text-sm md:text-lg md:px-44 md:mt-4">
             Octo is a PR automation system that streamlines software development
             workflows. It helps teams efficiently manage and track pull
             requests, ensuring seamless integration and high code quality.
