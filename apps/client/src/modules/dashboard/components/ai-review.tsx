@@ -1,4 +1,4 @@
-import { Badge } from "lucide-react";
+import { Badge } from "@/common/components/ui/badge";
 
 const AIReview = () => {
   return (

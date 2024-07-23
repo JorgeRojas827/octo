@@ -34,7 +34,7 @@ export const SelectRepositories = () => {
         <SelectValue placeholder="Repository" />
       </SelectTrigger>
       <SelectContent>
-        {repositories.map((repository) => (
+        {repositories?.map((repository) => (
           <SelectItem key={repository.id} value={repository.name}>
             {repository.name}
           </SelectItem>
