@@ -41,12 +41,8 @@ const TextFormatter: React.FC<TextFormatterProps> = ({ text }) => {
           <h4
             className={cn("font-bold", {
               "text-red-500": section.title.toLowerCase().includes("critical"),
-              "text-orange-500": section.title
-                .toLowerCase()
-                .includes("missing"),
-              "text-green-500": section.title
-                .toLowerCase()
-                .includes("good points"),
+              "text-orange-500": section.title.toLowerCase().includes("missing"),
+              "text-green-500": section.title.toLowerCase().includes("good points"),
               "text-black":
                 !section.title.toLowerCase().includes("critical") &&
                 !section.title.toLowerCase().includes("missing") &&

@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { FileBadgeIcon } from "lucide-react";
+import { FileCheckIcon } from "lucide-react";
 import TextFormatter from "./TextFormatter";
 
 const ReviewAI = () => {
@@ -36,7 +36,7 @@ const ReviewAI = () => {
           <AccordionItem key={review.filename} value={review.filename}>
             <AccordionTrigger>
               <span className="flex items-center gap-x-2">
-                <FileBadgeIcon size={18} className="text-purple-600" />
+                <FileCheckIcon size={18} className="text-purple-600" />
                 {review.filename}
               </span>
             </AccordionTrigger>

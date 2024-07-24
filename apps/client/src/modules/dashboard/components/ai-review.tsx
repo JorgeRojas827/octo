@@ -4,7 +4,7 @@ import ReviewAI from "./review-ai";
 
 const AIReview = () => {
   return (
-    <div className="w-full bg-muted/50 min-h-[600px] p-4 rounded-md">
+    <div className="w-full bg-muted/50 min-h-[450px] p-4 rounded-md">
       <ButtonAI />
       <ReviewAI />
     </div>
