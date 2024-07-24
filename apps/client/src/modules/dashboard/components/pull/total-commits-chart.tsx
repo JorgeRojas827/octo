@@ -12,6 +12,7 @@ import {
 } from "@/common/components/ui/chart";
 import { useRepositoriesStore } from "../../store/repository.store";
 import React from "react";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
 const chartConfig = {
   count: {
@@ -20,7 +21,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// convert yyyy-mm-dd into dd/mm
 const formatMonth = (date: string) => {
   const [_, month, day] = date.split("-");
   return `${month}/${day}`;
@@ -60,6 +60,24 @@ const TotalCommitsChart = ({ className }: { className?: string }) => {
             </AreaChart>
           </ChartContainer>
         </div>
+      )}
+      {selectedRepo && commitChartLoading && (
+        <Skeleton className={cn("p-6 border rounded-md", className)}>
+          <div className="flex flex-col justify-between space-y-2 mb-10">
+            <Skeleton className="w-2/4 h-6" />
+            <Skeleton className="w-3/4 h-4" />
+          </div>
+          <div>
+            <Skeleton className="w-full h-48" />
+            <div className="mt-5 flex items-center justify-center space-x-6">
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+            </div>
+          </div>
+        </Skeleton>
       )}
     </React.Fragment>
   );

@@ -39,7 +39,7 @@ export const SelectBranches = () => {
         disabled={branchesLoading && !!selectedRepo}
         className="w-[180px]"
       >
-        <SelectValue placeholder="Branch" />
+        <SelectValue placeholder="Select a branch" />
       </SelectTrigger>
       <SelectContent>
         {branches &&

@@ -46,7 +46,12 @@ const SelectPullRequest = () => {
       >
         <SelectValue
           placeholder={
-            pullRequests.length ? "Select a pull request" : "Nothing is here"
+            !selectedBranchObject.commitSha ||
+            (!!selectedBranchObject.commitSha && pullRequests.length)
+              ? "Select a pull request"
+              : !!pullRequests.length &&
+                selectedBranchObject.commitSha &&
+                "Nothing is here"
           }
         />
       </SelectTrigger>

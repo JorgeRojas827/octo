@@ -31,7 +31,7 @@ export const SelectRepositories = () => {
       value={selectedRepo}
     >
       <SelectTrigger disabled={repositoriesLoading} className="w-[180px]">
-        <SelectValue placeholder="Repository" />
+        <SelectValue placeholder="Select a repository" />
       </SelectTrigger>
       <SelectContent>
         {repositories?.map((repository) => (
