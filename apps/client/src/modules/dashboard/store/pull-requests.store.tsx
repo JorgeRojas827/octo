@@ -7,34 +7,38 @@ import {
 
 interface IPullRequestsState {
   selectedPR: string;
-  setSelectedPR: (repo: string) => void;
+  selectedNumberPR: string;
   pullRequests: IPullRequest[];
+  pullRequestsLoading: boolean;
+  countPRs: IPullRequestCounter | null;
+  countPRLoading: boolean;
+  setSelectedNumberPR: (number: string) => void;
+  setSelectedPR: (repo: string) => void;
+  clearPullRequest: () => Promise<void>;
   fetchAllPullRequests: (
     repository: string,
     commitSha: string
   ) => Promise<void>;
-  pullRequestsLoading: boolean;
-  clearPullRequest: () => Promise<void>;
-  countPRs: IPullRequestCounter | null;
-  countPRLoading: boolean;
 }
 
 export const usePullRequestsStore = create<IPullRequestsState>((set) => ({
   selectedPR: "",
-  setSelectedPR: (repo) => set(() => ({ selectedPR: repo })),
+  selectedNumberPR: "",
   pullRequests: [],
+  pullRequestsLoading: true,
+  countPRLoading: true,
+  countPRs: null,
+  setSelectedPR: (repo) => set(() => ({ selectedPR: repo })),
+  setSelectedNumberPR: (number) => set(() => ({ selectedNumberPR: number })),
+  clearPullRequest: () =>
+    new Promise((resolve) => {
+      set(() => ({ selectedPR: "" }));
+      resolve();
+    }),
   fetchAllPullRequests: async (repository: string, commitSha: string) => {
     const pullRequests = await getAllPullRequests(repository, commitSha);
     set(() => ({ pullRequestsLoading: false }));
 
     set(() => ({ pullRequests: pullRequests.data || [] }));
   },
-  clearPullRequest: () =>
-    new Promise((resolve) => {
-      set(() => ({ selectedPR: "" }));
-      resolve();
-    }),
-  pullRequestsLoading: true,
-  countPRLoading: true,
-  countPRs: null,
 }));

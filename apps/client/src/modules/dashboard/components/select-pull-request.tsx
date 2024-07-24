@@ -22,6 +22,7 @@ const SelectPullRequest = () => {
     pullRequests,
     selectedPR,
     setSelectedPR,
+    setSelectedNumberPR,
     clearPullRequest,
     pullRequestsLoading,
   } = usePullRequestsStore();
@@ -37,7 +38,11 @@ const SelectPullRequest = () => {
   return (
     <Select
       disabled={!enabled || !pullRequests.length}
-      onValueChange={setSelectedPR}
+      onValueChange={(value) => {
+        setSelectedPR(value);
+        const selectedNumberPR = pullRequests.find((pr) => pr.title === value)?.prNumber;
+        setSelectedNumberPR(String(selectedNumberPR));
+      }}
       value={selectedPR}
     >
       <SelectTrigger

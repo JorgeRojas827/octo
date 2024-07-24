@@ -64,8 +64,18 @@ const config = {
         slide: "slide var(--speed) ease-in-out infinite alternate",
         blob: "blob 7s infinite",
         tilt: "tilt 10s infinite linear",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
         "spin-around": {
           "0%": {
             transform: "translateZ(0) rotate(0)",
