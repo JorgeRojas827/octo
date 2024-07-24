@@ -14,6 +14,8 @@ import {
   isProgrammingFile,
   delay,
 } from '@infrastructure/common/utils/transformers';
+import { getMonthName } from '@infrastructure/common/utils/constants';
+import * as moment from 'moment';
 
 @Injectable()
 export class GithubService {
@@ -80,16 +82,123 @@ export class GithubService {
     }
   }
 
+  async getPRCountsByMonth(owner: string, repo: string) {
+    const today = new Date();
+    const sixMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 6, 1);
+
+    const pullRequests = (
+      await this.octokit.pulls.list({
+        repo,
+        owner,
+        state: 'all',
+      })
+    ).data.filter((pr) => new Date(pr.created_at) >= sixMonthsAgo);
+
+    const months = Array.from({ length: 6 }, (_, i) => {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      return {
+        month: getMonthName(date.getMonth()),
+        year: date.getFullYear(),
+        date: date,
+      };
+    }).reverse();
+
+    const prCountsByMonth = months
+      .map(({ month, year, date }) => {
+        const monthlyPRs = pullRequests.filter((pr) => {
+          const createdDate = new Date(pr.created_at);
+          return (
+            createdDate.getFullYear() === year &&
+            createdDate.getMonth() === date.getMonth()
+          );
+        });
+
+        const totalPRs = monthlyPRs.length;
+        const mergedPRs = monthlyPRs.filter((pr) => pr.merged_at).length;
+
+        return totalPRs > 0 || mergedPRs > 0
+          ? { month, total: totalPRs, merged: mergedPRs }
+          : null;
+      })
+      .filter(Boolean);
+
+    return prCountsByMonth;
+  }
+
+  async getCommitCountsByMonth(owner: string, repo: string) {
+    const getCommitDate = (commit: any): string =>
+      new Date(commit.commit.author?.date ?? commit.commit.committer?.date)
+        .toISOString()
+        .split('T')[0];
+
+    const commits = await this.octokit.repos.listCommits({
+      owner,
+      repo,
+    });
+    const groupedByDay = commits.data.reduce(
+      (acc, commit) => {
+        const date = getCommitDate(commit);
+        acc[date] = (acc[date] || 0) + 1;
+        return acc;
+      },
+      {} as { [key: string]: number },
+    );
+
+    const commitCountsByDay = Object.entries(groupedByDay).map(
+      ([date, count]) => ({ date, count }),
+    );
+
+    return commitCountsByDay.reverse();
+  }
+
+  async getPullRequestDetails(
+    repo: string,
+    owner: string,
+    pull_number: number,
+  ) {
+    try {
+      const { data: pullRequest } = await this.octokit.pulls.get({
+        owner,
+        repo,
+        pull_number,
+      });
+
+      const { data: commits } = await this.octokit.pulls.listCommits({
+        owner,
+        repo,
+        pull_number,
+      });
+
+      const lastCommitDate = commits[commits.length - 1].commit.committer.date;
+
+      const pullRequestDetails = {
+        number: pullRequest.number,
+        title: pullRequest.title,
+        created_at: moment(pullRequest.created_at).fromNow(),
+        commits: pullRequest.commits,
+        reviewers: pullRequest.requested_reviewers.map(
+          (reviewer) => reviewer.login,
+        ),
+        last_commit_date: moment(lastCommitDate).fromNow(),
+        branch: pullRequest.head.ref,
+        base_branch: pullRequest.base.ref,
+      };
+
+      return pullRequestDetails;
+    } catch (error) {
+      console.error(`Error fetching pull request details: ${error}`);
+    }
+  }
+
   async getBranchesByRepository(repository: string, username: string) {
     try {
       const branches = await this.octokit.rest.repos.listBranches({
         owner: username,
         repo: repository,
       });
-
       const pulls = await this.octokit.pulls.list({
-        owner: username,
         repo: repository,
+        owner: username,
         state: 'all',
       });
 
@@ -98,12 +207,36 @@ export class GithubService {
       const closedPRs = pulls.data.filter((pr) => pr.state === 'closed').length;
       const mergedPRs = pulls.data.filter((pr) => pr.merged_at !== null).length;
 
+      const prByMonth = await this.getPRCountsByMonth(username, repository);
+      const commitsByMonth = await this.getCommitCountsByMonth(
+        username,
+        repository,
+      );
+
       const response: BranchesResponseDto[] = branches.data.map((branch) => ({
         name: branch.name,
         commitSha: branch.commit.sha,
       }));
 
-      return { branches: response, totalPRs, openPRs, closedPRs, mergedPRs };
+      return {
+        branches: response,
+        prChart: {
+          prByMonth,
+          prMergePercentage: ((mergedPRs / totalPRs) * 100).toFixed(2),
+        },
+        commitChart: {
+          commitsByMonth,
+          commitsByMonthAverage:
+            commitsByMonth.length > 0
+              ? commitsByMonth.reduce((sum, entry) => sum + entry.count, 0) /
+                commitsByMonth.length
+              : 0,
+        },
+        totalPRs,
+        openPRs,
+        closedPRs,
+        mergedPRs,
+      };
     } catch (error) {
       throw new Error(
         this.i18n.t('github_messages.BRANCHES_NOT_FOUND', {

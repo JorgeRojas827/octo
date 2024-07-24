@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IRepository } from "../interfaces/repository.interface";
+import { ICommitsChart, IRepository } from "../interfaces/repository.interface";
 import { getAllRepositories } from "../services/repositories.service";
 
 interface IRepositoriesState {
@@ -8,6 +8,8 @@ interface IRepositoriesState {
   repositories: IRepository[];
   fetchAllRepositories: () => Promise<void>;
   repositoriesLoading: boolean;
+  commitChart: ICommitsChart | null;
+  commitChartLoading: boolean;
 }
 
 export const useRepositoriesStore = create<IRepositoriesState>((set) => ({
@@ -21,4 +23,6 @@ export const useRepositoriesStore = create<IRepositoriesState>((set) => ({
     set(() => ({ repositories: repos.data }));
   },
   repositoriesLoading: true,
+  commitChart: null,
+  commitChartLoading: true,
 }));

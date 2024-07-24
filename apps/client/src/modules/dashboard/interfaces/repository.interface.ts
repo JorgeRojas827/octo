@@ -10,4 +10,14 @@ export interface IRepository {
   language?: string;
 }
 
+export interface ICommitsChart {
+  commitsByMonth: ICommitByMonth[];
+  commitsByMonthAverage: number;
+}
+
+export interface ICommitByMonth {
+  date: string;
+  count: number;
+}
+
 export interface IRepositoryResponse extends IHttpResponse<IRepository[]> {}
