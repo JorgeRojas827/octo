@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { useBranchesStore } from "../store/branch.store";
 import { useRepositoriesStore } from "../store/repository.store";
 
-const SelectPullRequest = () => {
+export const SelectPullRequest = () => {
   const { selectedBranchObject } = useBranchesStore();
   const { selectedRepo } = useRepositoriesStore();
   const enabled = selectedBranchObject.commitSha && selectedRepo;
@@ -46,7 +46,12 @@ const SelectPullRequest = () => {
       >
         <SelectValue
           placeholder={
-            pullRequests.length ? "Select a pull request" : "Nothing is here"
+            !selectedBranchObject.commitSha ||
+            (!!selectedBranchObject.commitSha && pullRequests.length)
+              ? "Select a pull request"
+              : !!pullRequests.length &&
+                selectedBranchObject.commitSha &&
+                "Nothing is here"
           }
         />
       </SelectTrigger>
@@ -57,12 +62,12 @@ const SelectPullRequest = () => {
               <SelectItem
                 key={pullRequest.prNumber}
                 value={pullRequest.title}
-                className="overflow-hidden flex items-center gap-x-2"
+                className="overflow-hidden flex items-center"
               >
                 <span className="text-purple-600">
-                  # {pullRequest.prNumber}{" "}
+                  # {pullRequest.prNumber}
                 </span>
-                <span className="opacity-75">/ {pullRequest.title}</span>
+                <span className="opacity-75"> / {pullRequest.title}</span>
               </SelectItem>
             ))}
         </SelectGroup>
@@ -70,5 +75,3 @@ const SelectPullRequest = () => {
     </Select>
   );
 };
-
-export default SelectPullRequest;

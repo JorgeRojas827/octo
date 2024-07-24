@@ -11,7 +11,7 @@ export class UserRepository implements IUserRepository {
     const info = {
       email,
       username,
-      fullName,
+      fullName: fullName || '',
       lastActiveAt: new Date(),
     };
 
