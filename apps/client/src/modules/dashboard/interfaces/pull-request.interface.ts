@@ -29,6 +29,13 @@ export interface IPullRequestsChart {
   prMergePercentage: string;
 }
 
+export interface IPullRequestTimeChart {
+  openToClose: number;
+  openToMerge: number;
+  timeToFirstReview: number;
+  lastReviewToMerge: number;
+}
+
 export interface IPullRequestByMonth {
   month: string;
   total: number;

@@ -11,7 +11,7 @@ const OverviewCards = () => {
   return (
     <React.Fragment>
       {!countPRLoading && selectedRepo && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-2 rounded-md border space-y-2">
             <h5 className="text-base text-center ">Total Pull Request</h5>
             <p className="text-4xl font-bold text-center">

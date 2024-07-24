@@ -212,6 +212,7 @@ export class GithubService {
         username,
         repository,
       );
+      const timeMetrics = await this.calculateTimeMetrics(username, repository);
 
       const response: BranchesResponseDto[] = branches.data.map((branch) => ({
         name: branch.name,
@@ -231,6 +232,9 @@ export class GithubService {
               ? commitsByMonth.reduce((sum, entry) => sum + entry.count, 0) /
                 commitsByMonth.length
               : 0,
+        },
+        timeChart: {
+          ...timeMetrics,
         },
         totalPRs,
         openPRs,
@@ -356,6 +360,72 @@ export class GithubService {
     }
 
     return results;
+  }
+
+  async calculateTimeMetrics(owner, repo) {
+    const pullRequests = await this.octokit.pulls.list({
+      owner,
+      repo,
+      state: 'all',
+    });
+    const prs = await Promise.all(
+      pullRequests.data.map(async (pr) => {
+        const reviews = await this.octokit.pulls.listReviews({
+          owner,
+          repo,
+          pull_number: pr.number,
+        });
+        return {
+          created_at: pr.created_at,
+          updated_at: pr.updated_at,
+          closed_at: pr.closed_at,
+          merged_at: pr.merged_at,
+          reviews: reviews.data.map((review) => ({
+            submitted_at: review.submitted_at,
+          })),
+        };
+      }),
+    );
+
+    const transformedPrs = prs.map((pr) => {
+      const createdAt = moment(pr.created_at);
+      const closedAt = pr.closed_at ? moment(pr.closed_at) : null;
+      const mergedAt = pr.merged_at ? moment(pr.merged_at) : null;
+      const firstReviewAt =
+        pr.reviews.length > 0 ? moment(pr.reviews[0].submitted_at) : null;
+      const lastReviewAt =
+        pr.reviews.length > 0
+          ? moment(pr.reviews[pr.reviews.length - 1].submitted_at)
+          : null;
+
+      return {
+        openToClose: closedAt ? closedAt.diff(createdAt, 'days') : 0,
+        openToMerge: mergedAt ? mergedAt.diff(createdAt, 'days') : 0,
+        timeToFirstReview: firstReviewAt
+          ? firstReviewAt.diff(createdAt, 'days')
+          : 0,
+        lastReviewToMerge:
+          mergedAt && lastReviewAt ? mergedAt.diff(lastReviewAt, 'days') : 0,
+      };
+    });
+
+    const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+    const openToClose = avg(transformedPrs.map((m) => m.openToClose));
+    const openToMerge = avg(transformedPrs.map((m) => m.openToMerge));
+    const timeToFirstReview = avg(
+      transformedPrs.map((m) => m.timeToFirstReview),
+    );
+    const lastReviewToMerge = avg(
+      transformedPrs.map((m) => m.lastReviewToMerge),
+    );
+
+    return {
+      openToClose,
+      openToMerge,
+      timeToFirstReview,
+      lastReviewToMerge,
+    };
   }
 
   processFile = async (file: any, userPrompt) => {

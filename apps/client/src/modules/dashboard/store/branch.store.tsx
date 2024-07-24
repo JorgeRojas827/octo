@@ -38,11 +38,13 @@ export const useBranchesStore = create<IBranchesState>((set, get) => ({
         totalPRs: response.data.totalPRs,
       },
       pullRequestChart: response.data.prChart,
+      pullRequestTimeChart: response.data.timeChart,
     }));
     usePullRequestsStore.setState((prevState) => ({
       ...prevState,
       countPRLoading: false,
       pullRequestChartLoading: false,
+      pullRequestTimeChartLoading: false,
     }));
 
     useRepositoriesStore.setState((prevState) => ({

@@ -8,6 +8,7 @@ import {
   IPullRequestCounter,
   IPullRequestDetails,
   IPullRequestsChart,
+  IPullRequestTimeChart,
 } from "../interfaces/pull-request.interface";
 import { useRepositoriesStore } from "./repository.store";
 
@@ -32,6 +33,9 @@ interface IPullRequestsState {
   fetchPullRequestDetails: (repository: string) => Promise<void>;
   pullRequestDetails: IPullRequestDetails | null;
   pullRequestDetailsLoading: boolean;
+
+  pullRequestTimeChart: Partial<IPullRequestTimeChart> | null;
+  pullRequestTimeChartLoading: boolean;
 }
 
 export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
@@ -75,4 +79,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
   },
   pullRequestDetails: null,
   pullRequestDetailsLoading: true,
+
+  pullRequestTimeChart: null,
+  pullRequestTimeChartLoading: true,
 }));

@@ -59,8 +59,18 @@ const TotalPullChart = ({ className }: { className?: string }) => {
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="total" fill="var(--color-total)" radius={4} />
-                <Bar dataKey="merged" fill="var(--color-merged)" radius={4} />
+                <Bar
+                  dataKey="total"
+                  fill="var(--color-total)"
+                  fillOpacity={0.4}
+                  radius={4}
+                />
+                <Bar
+                  dataKey="merged"
+                  fill="var(--color-merged)"
+                  fillOpacity={0.4}
+                  radius={4}
+                />
               </BarChart>
             </ChartContainer>
           ) : (

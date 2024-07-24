@@ -11,7 +11,7 @@ const DetailsPR = () => {
   return (
     <React.Fragment>
       {!!selectedPR && !pullRequestDetailsLoading && (
-        <div className="w-full border mt-4 rounded-md p-5 flex flex-col items-stretch">
+        <div className="w-full border rounded-md p-5 flex flex-col items-stretch">
           <div>
             <h3 className="text-lg font-semibold">
               {pullRequestDetails?.title}

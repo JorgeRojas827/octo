@@ -54,7 +54,9 @@ const TotalCommitsChart = ({ className }: { className?: string }) => {
               <ChartTooltip content={<ChartTooltipContent />} />
               <Area
                 dataKey="count"
+                type="natural"
                 fill="var(--color-count)"
+                fillOpacity={0.4}
                 stroke="var(--color-count)"
               />
             </AreaChart>
