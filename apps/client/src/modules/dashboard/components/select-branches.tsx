@@ -35,11 +35,8 @@ export const SelectBranches = () => {
       onValueChange={setSelectedBranch}
       value={selectedBranch}
     >
-      <SelectTrigger
-        disabled={branchesLoading && !!selectedRepo}
-        className="w-[180px]"
-      >
-        <SelectValue placeholder="Branch" />
+      <SelectTrigger disabled={branchesLoading && !!selectedRepo}>
+        <SelectValue placeholder="Select a branch" />
       </SelectTrigger>
       <SelectContent>
         {branches &&

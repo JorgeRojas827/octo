@@ -10,47 +10,78 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/common/components/ui/chart";
+import { useRepositoriesStore } from "../../store/repository.store";
+import React from "react";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
+  count: {
+    label: "Commits",
+    color: "#666",
   },
 } satisfies ChartConfig;
 
+const formatMonth = (date: string) => {
+  const [_, month, day] = date.split("-");
+  return `${month}/${day}`;
+};
+
 const TotalCommitsChart = ({ className }: { className?: string }) => {
+  const { selectedRepo, commitChart, commitChartLoading } =
+    useRepositoriesStore();
+
   return (
-    <div className={cn("p-4 border rounded-md", className)}>
-      <h3 className="text-xl font-semibold mb-12">
-        Total Commits in Repo Name
-      </h3>
-      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-        <AreaChart data={chartData}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Area
-            dataKey="desktop"
-            fill="var(--color-desktop)"
-            stroke="var(--color-desktop)"
-          />
-        </AreaChart>
-      </ChartContainer>
-    </div>
+    <React.Fragment>
+      {selectedRepo && !commitChartLoading && (
+        <div className={cn("p-4 border rounded-md", className)}>
+          <div className="flex flex-col justify-between p-2 mb-10">
+            <h3 className="text-xl font-semibold">Commit metrics</h3>
+            <span className="text-sm opacity-50">
+              Average per day: {commitChart?.commitsByMonthAverage.toFixed(2)}{" "}
+              commits
+            </span>
+          </div>
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+            <AreaChart data={commitChart?.commitsByMonth.reverse()}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => formatMonth(value)}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Area
+                dataKey="count"
+                type="natural"
+                fill="var(--color-count)"
+                fillOpacity={0.4}
+                stroke="var(--color-count)"
+              />
+            </AreaChart>
+          </ChartContainer>
+        </div>
+      )}
+      {selectedRepo && commitChartLoading && (
+        <Skeleton className={cn("p-6 border rounded-md", className)}>
+          <div className="flex flex-col justify-between space-y-2 mb-10">
+            <Skeleton className="w-2/4 h-6" />
+            <Skeleton className="w-3/4 h-4" />
+          </div>
+          <div>
+            <Skeleton className="w-full h-48" />
+            <div className="mt-5 flex items-center justify-center space-x-6">
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+              <Skeleton className="w-6 h-4" />
+            </div>
+          </div>
+        </Skeleton>
+      )}
+    </React.Fragment>
   );
 };
 

@@ -10,6 +10,7 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -18,6 +19,11 @@ export const authOptions: AuthOptions = {
           image: profile.avatar_url,
           username: profile.login,
         };
+      },
+      authorization: {
+        params: {
+          scope: "read:user user:email",
+        },
       },
     }),
   ],

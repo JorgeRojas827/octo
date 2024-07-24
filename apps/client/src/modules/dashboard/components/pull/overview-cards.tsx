@@ -11,36 +11,28 @@ const OverviewCards = () => {
   return (
     <React.Fragment>
       {!countPRLoading && selectedRepo && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-2 rounded-md border space-y-2">
-            <h5 className="text-base text-center font-bold">
-              Total Pull Request
-            </h5>
+            <h5 className="text-base text-center ">Total Pull Request</h5>
             <p className="text-4xl font-bold text-center">
               {countPRs?.totalPRs}
             </p>
           </div>
           <div className="p-2 rounded-md border space-y-2">
-            <h5 className="text-base text-center font-bold">
-              Pull Request Open
-            </h5>
-            <p className="text-4xl font-bold text-center text-green-500">
+            <h5 className="text-base text-center">Open Pull Request</h5>
+            <p className="text-4xl font-bold text-center">
               {countPRs?.openPRs}
             </p>
           </div>
           <div className="p-2 rounded-md border space-y-2">
-            <h5 className="text-base text-center font-bold">
-              Pull Request Closed
-            </h5>
-            <p className="text-4xl font-bold text-center text-red-500">
+            <h5 className="text-base text-center">Closed Pull Request</h5>
+            <p className="text-4xl font-bold text-center">
               {countPRs?.closedPRs}
             </p>
           </div>
           <div className="p-2 rounded-md border space-y-2">
-            <h5 className="text-base text-center font-bold">
-              Pull Request Merged
-            </h5>
-            <p className="text-4xl font-bold text-center text-primary">
+            <h5 className="text-base text-center">Merged Pull Request</h5>
+            <p className="text-4xl font-bold text-center">
               {countPRs?.mergedPRs}
             </p>
           </div>

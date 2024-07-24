@@ -24,6 +24,19 @@ export class GithubPullsController {
     );
   }
 
+  @PrivateRoute(MethodEnum.GET, '/details')
+  async getPullRequestDetails(
+    @Query('repository') repository: string,
+    @Query('pullNumber') pullNumber: string,
+    @User() user: IUserDecorator,
+  ) {
+    return this.githubService.getPullRequestDetails(
+      repository,
+      user.username,
+      Number(pullNumber),
+    );
+  }
+
   @PrivateRoute(MethodEnum.GET, '/files')
   async getPullRequestsFiles(
     @Query('repository') repository: string,
