@@ -36,14 +36,17 @@ const ReviewAI = () => {
 
   return (
     <React.Fragment>
-      <div className="w-full bg-muted/50 min-h-[450px] p-4 mt-24 rounded-md">
+      <div className="w-full border py-2 min-h-[450px] p-4 mt-24 rounded-md">
         <div className="grid grid-cols-1 gap-4">
           <Accordion type="single" collapsible>
             {aiReviews?.map((review) => (
               <AccordionItem key={review.filename} value={review.filename}>
                 <AccordionTrigger>
-                  <span className="flex items-center gap-x-2">
-                    <FileCheckIcon size={18} className="text-purple-600" />
+                  <span className="flex items-center text-sm gap-x-2">
+                    <FileCheckIcon
+                      size={18}
+                      className="text-purple-600 text-sm"
+                    />
                     {review.filename}
                   </span>
                 </AccordionTrigger>

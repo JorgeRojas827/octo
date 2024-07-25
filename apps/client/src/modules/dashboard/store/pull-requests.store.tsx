@@ -49,6 +49,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
   countPRs: null,
   setSelectedPR: (pr) => {
     set(() => ({ selectedPR: pr }));
+    set(() => ({ pullRequestDetailsLoading: true }));
     get().fetchPullRequestDetails(useRepositoriesStore.getState().selectedRepo);
   },
   setSelectedNumberPR: (number) => set(() => ({ selectedNumberPR: number })),

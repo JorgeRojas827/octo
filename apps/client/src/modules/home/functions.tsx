@@ -4,7 +4,7 @@ const Functions = () => {
   return (
     <div className="w-full flex justify-center items-center my-40 md:my-0 md:h-screen">
       <MaxWidthWrapper className="flex flex-col justify-center items-center">
-        <h4 className="text-6xl font-bold">How to use Octa:</h4>
+        <h4 className="text-6xl font-bold">How to use Octo:</h4>
         <section>
           <ol className="my-8 space-y-4 pt-8 md:flex md:space-x-12 md:space-y-0">
             <li className="md:flex-1">
@@ -30,7 +30,8 @@ const Functions = () => {
                   Select your repository
                 </span>
                 <span className="mt-2 text-zinc-500">
-                  Choose the repository you want, select the branch and commit you want to analyze.
+                  Choose the repository you want, select the branch and commit
+                  you want to analyze.
                 </span>
               </div>
             </li>
@@ -39,11 +40,9 @@ const Functions = () => {
                 <span className="text-sm font-medium text-purple-600">
                   Step 3
                 </span>
-                <span className="text-xl font-semibold">
-                  Ask AI to review
-                </span>
+                <span className="text-xl font-semibold">Ask AI to review</span>
                 <span className="mt-2 text-zinc-500">
-                  It&apos;s that simple. Try out Octa today - it really takes
+                  It&apos;s that simple. Try out Octo today - it really takes
                   less than a minute.
                 </span>
               </div>

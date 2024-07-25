@@ -7,12 +7,16 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import Provider from "@/common/helpers/client-provider";
 import { setupAxios } from "@/common/helpers/axios-helper";
 import { apiInstance } from "@/lib/axios/instances";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Octo",
   description: "Dashboard for managing your repositories with AI",
+  icons: {
+    icon: "/octo-ico.svg",
+  },
 };
 
 setupAxios(apiInstance);
