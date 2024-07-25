@@ -47,7 +47,10 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
   pullRequestsLoading: true,
   countPRLoading: true,
   countPRs: null,
-  setSelectedPR: (repo) => set(() => ({ selectedPR: repo })),
+  setSelectedPR: (pr) => {
+    set(() => ({ selectedPR: pr }));
+    get().fetchPullRequestDetails(useRepositoriesStore.getState().selectedRepo);
+  },
   setSelectedNumberPR: (number) => set(() => ({ selectedNumberPR: number })),
   clearPullRequest: () =>
     new Promise((resolve) => {
@@ -68,6 +71,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
     const pullNumber = get().pullRequests.find(
       (pr) => pr.title === get().selectedPR
     )?.prNumber;
+
     const pullRequestDetails = await getPullRequestDetails(
       repository,
       pullNumber || 0

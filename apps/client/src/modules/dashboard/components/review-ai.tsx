@@ -9,9 +9,14 @@ import {
 } from "@/common/components/ui/accordion";
 import { FileCheckIcon } from "lucide-react";
 import TextFormatter from "./TextFormatter";
+import React from "react";
+import { usePullRequestsStore } from "../store/pull-requests.store";
 
 const ReviewAI = () => {
   const { aiReviews, aiLoading } = useAIStore();
+  const { selectedNumberPR } = usePullRequestsStore();
+
+  if (!selectedNumberPR) return;
 
   if (aiLoading) {
     return (
@@ -30,23 +35,27 @@ const ReviewAI = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <Accordion type="single" collapsible>
-        {aiReviews?.map((review) => (
-          <AccordionItem key={review.filename} value={review.filename}>
-            <AccordionTrigger>
-              <span className="flex items-center gap-x-2">
-                <FileCheckIcon size={18} className="text-purple-600" />
-                {review.filename}
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-                <TextFormatter text={review.automatedReview} />
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
+    <React.Fragment>
+      <div className="w-full bg-muted/50 min-h-[450px] p-4 mt-24 rounded-md">
+        <div className="grid grid-cols-1 gap-4">
+          <Accordion type="single" collapsible>
+            {aiReviews?.map((review) => (
+              <AccordionItem key={review.filename} value={review.filename}>
+                <AccordionTrigger>
+                  <span className="flex items-center gap-x-2">
+                    <FileCheckIcon size={18} className="text-purple-600" />
+                    {review.filename}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <TextFormatter text={review.automatedReview} />
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
+    </React.Fragment>
   );
 };
 

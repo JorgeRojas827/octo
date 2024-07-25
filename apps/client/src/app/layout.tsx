@@ -29,7 +29,7 @@ export default async function RootLayout({
       <html lang="en">
         <body
           className={cn(
-            "bg-gradient-to-t from-[#030303] to-[#060606] antialiased",
+            "bg-gradient-to-t from-[#030303] to-[#060606] bg-no-repeat min-h-screen antialiased",
             inter.className
           )}
         >

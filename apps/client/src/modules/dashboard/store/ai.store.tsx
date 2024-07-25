@@ -3,21 +3,21 @@ import { IAIReview } from "../interfaces/ai.interface";
 import getAIReview from "../services/ai.service";
 
 interface IAIStore {
-    aiReviews: IAIReview[] | null;
-    aiLoading: boolean;
-    fetchAIReview: (repository: string, pullNumber: string) => Promise<void>;
-    clearAIReview: () => void;
+  aiReviews: IAIReview[] | null;
+  aiLoading: boolean;
+  fetchAIReview: (repository: string, pullNumber: string) => Promise<void>;
+  clearAIReview: () => void;
 }
 
 export const useAIStore = create<IAIStore>((set) => ({
-    aiReviews: null,
-    aiLoading: false,
-    fetchAIReview: async (repository: string, pullNumber: string) => {
-        set({ aiLoading: true });
-        const repsonse = await getAIReview(repository, pullNumber);
-        set({ aiReviews: repsonse.data, aiLoading: false });
-    },
-    clearAIReview: () => {
-        set({ aiReviews: null });
-    }
-}))
+  aiReviews: null,
+  aiLoading: false,
+  fetchAIReview: async (repository: string, pullNumber: string) => {
+    set({ aiLoading: true });
+    const repsonse = await getAIReview(repository, pullNumber);
+    set({ aiReviews: repsonse.data, aiLoading: false });
+  },
+  clearAIReview: () => {
+    set({ aiReviews: null });
+  },
+}));
