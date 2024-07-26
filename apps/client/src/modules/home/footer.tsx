@@ -20,10 +20,16 @@ const Footer = () => {
           </section>
         </div>
         <div className="flex flex-col gap-y-4">
-          <Link href={"/"} className="flex gap-x-2">
+          <Link
+            href="https://github.com/JorgeRojas827/octo"
+            target="_blank"
+            className="flex gap-x-2"
+          >
             <GithubIcon className="w-5" /> Github Repository
           </Link>
-          <section className="text-end font-light">All rights reserved</section>
+          <section className="text-end opacity-50 font-light">
+            All rights reserved
+          </section>
         </div>
       </MaxWidthWrapper>
     </div>
