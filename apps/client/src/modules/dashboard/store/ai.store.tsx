@@ -14,8 +14,8 @@ export const useAIStore = create<IAIStore>((set) => ({
   aiLoading: false,
   fetchAIReview: async (repository: string, pullNumber: string) => {
     set({ aiLoading: true });
-    const repsonse = await getAIReview(repository, pullNumber);
-    set({ aiReviews: repsonse.data, aiLoading: false });
+    const response = await getAIReview(repository, pullNumber);
+    set({ aiReviews: response.data, aiLoading: false });
   },
   clearAIReview: () => {
     set({ aiReviews: null });
