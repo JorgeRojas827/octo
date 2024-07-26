@@ -9,10 +9,10 @@ const RepositoryMetrics = () => {
       <OverviewCards />
       <PullDetailsAndCharts />
       <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-12">
-        <div className="col-span-4">
+        <div className="md:col-span-4">
           <DetailsPR />
         </div>
-        <div className="col-span-8">
+        <div className="md:col-span-8">
           <AIReview />
         </div>
       </div>

@@ -14,6 +14,8 @@ import { useRepositoriesStore } from "./repository.store";
 
 interface IPullRequestsState {
   selectedPR: string;
+  selectedNumberPR: string;
+  setSelectedNumberPR: (number: string) => void;
   setSelectedPR: (repo: string) => void;
 
   fetchAllPullRequests: (
@@ -40,27 +42,28 @@ interface IPullRequestsState {
 
 export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
   selectedPR: "",
+  selectedNumberPR: "",
+  pullRequests: [],
+  pullRequestsLoading: true,
+  countPRLoading: true,
+  countPRs: null,
   setSelectedPR: (pr) => {
     set(() => ({ selectedPR: pr }));
+    set(() => ({ pullRequestDetailsLoading: true }));
     get().fetchPullRequestDetails(useRepositoriesStore.getState().selectedRepo);
   },
-
+  setSelectedNumberPR: (number) => set(() => ({ selectedNumberPR: number })),
+  clearPullRequest: () =>
+    new Promise((resolve) => {
+      set(() => ({ selectedPR: "" }));
+      resolve();
+    }),
   fetchAllPullRequests: async (repository: string, commitSha: string) => {
     const pullRequests = await getAllPullRequests(repository, commitSha);
     set(() => ({ pullRequestsLoading: false }));
 
     set(() => ({ pullRequests: pullRequests.data || [] }));
   },
-  pullRequests: [],
-  pullRequestsLoading: true,
-  clearPullRequest: () =>
-    new Promise((resolve) => {
-      set(() => ({ selectedPR: "" }));
-      resolve();
-    }),
-
-  countPRs: null,
-  countPRLoading: true,
 
   pullRequestChart: null,
   pullRequestChartLoading: true,
@@ -69,6 +72,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
     const pullNumber = get().pullRequests.find(
       (pr) => pr.title === get().selectedPR
     )?.prNumber;
+
     const pullRequestDetails = await getPullRequestDetails(
       repository,
       pullNumber || 0

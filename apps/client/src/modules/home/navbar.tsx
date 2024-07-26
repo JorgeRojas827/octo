@@ -10,15 +10,16 @@ import {
   SheetTrigger,
 } from "@/common/components/ui/sheet";
 import { Button } from "@/common/components/ui/button";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
     <div className="fixed z-30 w-full backdrop-filter backdrop-blur-sm bg-opacity-10 border-b">
       {/* Navbar Desktop */}
-      <MaxWidthWrapper className="hidden md:flex items-center justify-between py-3.5">
+      <MaxWidthWrapper className="hidden md:flex items-center justify-between py-2">
         <section className="flex items-center space-x-10">
           <Link href={"/"} className="font-bold text-xl">
-            Octo
+            <Image src="/octo.svg" alt="Octo" width={50} height={50} />
           </Link>
           <Link href={"/"} className="font-light">
             About us
@@ -51,7 +52,7 @@ const Navbar = () => {
           >
             <SheetTitle>
               <Link href={"/"} className="text-2xl font-bold">
-                Octo
+                <Image src="/octo.svg" alt="Octo" width={50} height={50} />
               </Link>
             </SheetTitle>
             <nav className="flex flex-col justify-between" id="mobile-menu">

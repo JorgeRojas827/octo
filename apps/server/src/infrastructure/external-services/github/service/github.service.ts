@@ -433,6 +433,6 @@ export class GithubService {
       userPrompt.replace(this.prObjectKey, JSON.stringify(file.patch)),
     );
 
-    return { filename: file.filename, automatedReview };
+    return { filename: file.filename, automatedReview, changes: file.patch };
   };
 }

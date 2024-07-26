@@ -5,7 +5,7 @@ const Testimonials = () => {
   return (
     <div className="w-full flex justify-center items-center mb-20 md:mb-60">
       <MaxWidthWrapper className="flex flex-col justify-center items-center space-y-8">
-        <h4 className="text-6xl font-bold">Experiences with Octa:</h4>
+        <h4 className="text-6xl font-bold">Experiences with Octo:</h4>
         <section className="grid md:grid-cols-2 gap-6">
           <TestimonialCard
             name="Jonh Kennedy"

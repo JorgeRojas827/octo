@@ -8,6 +8,7 @@ import {
 } from "@/common/components/ui/dropdown";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 
 const DashboardHeader = () => {
@@ -16,7 +17,7 @@ const DashboardHeader = () => {
   return (
     <header className="flex justify-between items-center py-2">
       <Link href={"/"} className="font-bold text-xl">
-        Octo
+        <Image src="/octo.svg" alt="Octo" width={50} height={50} />
       </Link>
       <picture>
         <DropdownMenu>
