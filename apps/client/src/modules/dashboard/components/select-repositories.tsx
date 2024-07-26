@@ -25,21 +25,24 @@ export const SelectRepositories = () => {
   }, []);
 
   return (
-    <Select
-      onValueChange={setSelectedRepo}
-      disabled={repositoriesLoading}
-      value={selectedRepo}
-    >
-      <SelectTrigger disabled={repositoriesLoading}>
-        <SelectValue placeholder="Select a repository" />
-      </SelectTrigger>
-      <SelectContent>
-        {repositories?.map((repository) => (
-          <SelectItem key={repository.id} value={repository.name}>
-            {repository.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="space-y-2">
+      <label>Repository</label>
+      <Select
+        onValueChange={setSelectedRepo}
+        disabled={repositoriesLoading}
+        value={selectedRepo}
+      >
+        <SelectTrigger disabled={repositoriesLoading}>
+          <SelectValue placeholder="Select a repository" />
+        </SelectTrigger>
+        <SelectContent>
+          {repositories?.map((repository) => (
+            <SelectItem key={repository.id} value={repository.name}>
+              {repository.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

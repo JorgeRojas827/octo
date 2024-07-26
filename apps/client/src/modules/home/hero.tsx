@@ -1,6 +1,6 @@
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
 
-const Header = () => {
+const Hero = () => {
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <MaxWidthWrapper className="relative flex flex-col items-center justify-center">
@@ -27,4 +27,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Hero;
