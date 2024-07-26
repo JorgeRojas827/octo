@@ -40,7 +40,9 @@ export const SelectPullRequest = () => {
       disabled={!enabled || !pullRequests.length}
       onValueChange={(value) => {
         setSelectedPR(value);
-        const selectedNumberPR = pullRequests.find((pr) => pr.title === value)?.prNumber;
+        const selectedNumberPR = pullRequests.find(
+          (pr) => pr.title === value
+        )?.prNumber;
         setSelectedNumberPR(String(selectedNumberPR));
       }}
       value={selectedPR}
@@ -52,7 +54,8 @@ export const SelectPullRequest = () => {
         <SelectValue
           placeholder={
             !selectedBranchObject.commitSha ||
-            (!!selectedBranchObject.commitSha && pullRequests.length)
+            (!!selectedBranchObject.commitSha && pullRequests.length) ||
+            pullRequestsLoading
               ? "Select a pull request"
               : !!pullRequests.length &&
                 selectedBranchObject.commitSha &&
