@@ -12,8 +12,6 @@ const page = async () => {
         <DashboardHeader />
         <Separator />
         <DashboardOptions />
-        <RepositoryName />
-        <RepositoryMetrics />
       </MaxWidthWrapper>
     </div>
   );

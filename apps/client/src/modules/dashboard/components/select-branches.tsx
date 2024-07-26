@@ -24,9 +24,8 @@ export const SelectBranches = () => {
   } = useBranchesStore();
 
   useEffect(() => {
-    if (selectedRepo) {
+    if (selectedRepo)
       clearSelectedBranch().then(() => fetchAllBranches(selectedRepo));
-    }
   }, [selectedRepo]);
 
   return (

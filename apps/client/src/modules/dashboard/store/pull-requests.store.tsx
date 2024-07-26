@@ -11,6 +11,7 @@ import {
   IPullRequestTimeChart,
 } from "../interfaces/pull-request.interface";
 import { useRepositoriesStore } from "./repository.store";
+import { useAIStore } from "./ai.store";
 
 interface IPullRequestsState {
   selectedPR: string;
@@ -51,6 +52,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
     set(() => ({ selectedPR: pr }));
     set(() => ({ pullRequestDetailsLoading: true }));
     get().fetchPullRequestDetails(useRepositoriesStore.getState().selectedRepo);
+    useAIStore.setState({ aiReviews: null });
   },
   setSelectedNumberPR: (number) => set(() => ({ selectedNumberPR: number })),
   clearPullRequest: () =>

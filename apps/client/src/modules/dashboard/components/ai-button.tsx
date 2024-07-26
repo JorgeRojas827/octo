@@ -14,8 +14,8 @@ const ButtonAI = () => {
   return (
     <React.Fragment>
       {selectedNumberPR && (
-        <div className="flex w-full justify-between relative items-center mb-4">
-          <div className="absolute top-0 left-0 m-4">
+        <div className="flex w-full justify-between relative items-center md:mb-0 mb-4">
+          <div className="absolute top-0 left-0 md:m-0 m-4">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
               <button
