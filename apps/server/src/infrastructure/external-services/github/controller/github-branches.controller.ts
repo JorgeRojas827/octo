@@ -19,6 +19,7 @@ export class GithubBranchesController {
     return this.githubService.getBranchesByRepository(
       repository,
       user.username,
+      user.accessToken,
     );
   }
 }

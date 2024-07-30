@@ -2,6 +2,7 @@ import { create } from "zustand";
 import {
   getAllPullRequests,
   getPullRequestDetails,
+  submitPullRequestReview,
 } from "../services/pull-request.service";
 import {
   IPullRequest,
@@ -12,6 +13,7 @@ import {
 } from "../interfaces/pull-request.interface";
 import { useRepositoriesStore } from "./repository.store";
 import { useAIStore } from "./ai.store";
+import { useBranchesStore } from "./branch.store";
 
 interface IPullRequestsState {
   selectedPR: string;
@@ -39,6 +41,14 @@ interface IPullRequestsState {
 
   pullRequestTimeChart: Partial<IPullRequestTimeChart> | null;
   pullRequestTimeChartLoading: boolean;
+
+  submitPullRequestLoading: boolean;
+  submitPullRequestSuccess: boolean;
+  submitPullRequestReview: (
+    review: string,
+    filename: string,
+    changes: string
+  ) => Promise<void>;
 }
 
 export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
@@ -65,6 +75,29 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
     set(() => ({ pullRequestsLoading: false }));
 
     set(() => ({ pullRequests: pullRequests.data || [] }));
+  },
+
+  submitPullRequestLoading: false,
+  submitPullRequestSuccess: false,
+  submitPullRequestReview: async (
+    review: string,
+    filename: string,
+    changes
+  ) => {
+    set(() => ({ submitPullRequestSuccess: false }));
+    set(() => ({ submitPullRequestLoading: true }));
+    const line = Number(changes.match(/\d+/g)?.[0]) || 1;
+
+    await submitPullRequestReview(
+      useRepositoriesStore.getState().selectedRepo,
+      get().selectedNumberPR,
+      review,
+      filename,
+      useBranchesStore.getState().selectedBranchObject.commitSha,
+      line
+    );
+    set(() => ({ submitPullRequestLoading: false }));
+    set(() => ({ submitPullRequestSuccess: true }));
   },
 
   pullRequestChart: null,

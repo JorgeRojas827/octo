@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { CircleCheck, CircleX } from "lucide-react";
+import { File } from "lucide-react";
 import React from "react";
 
 interface DiffViewerProps {
@@ -40,15 +40,16 @@ const DiffViewer: React.FC<DiffViewerProps> = ({ changes }) => {
   };
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" className="mt-5" collapsible>
       <AccordionItem value="changes">
-        <AccordionTrigger>
+        <AccordionTrigger className=" border bg-opacity-50 rounded-md px-5">
           <span className="flex items-center text-sm gap-x-2">
+            <File size={16} />
             Show file change
           </span>
         </AccordionTrigger>
-        <AccordionContent>
-          <div className="bg-opacity-50 bg-gray-900 border rounded-md p-4 text-sm md:my-0 my-4 font-mono">
+        <AccordionContent className="mt-5">
+          <div className="bg-opacity-50 bg-gray-900 border rounded-md p-4 text-xs md:my-0 my-4 font-mono">
             {renderDiff(changes)}
           </div>
         </AccordionContent>

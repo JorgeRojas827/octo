@@ -33,8 +33,6 @@ export const setupAxios = (axiosInstance: AxiosInstance) => {
           console.error(data);
           break;
         case 401:
-          console.log({ error });
-
           signOut();
           break;
         case 404:

@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
       },
       authorization: {
         params: {
-          scope: "read:user user:email",
+          scope: "read:user user:email public_repo",
         },
       },
     }),
@@ -39,6 +39,7 @@ export const authOptions: AuthOptions = {
           githubId: user.id,
           username: githubData.login,
           fullName: githubData.name,
+          accessToken: account["access_token"] as string,
         });
 
         token.accessToken = userData.access_token;

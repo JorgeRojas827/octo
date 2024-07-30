@@ -6,7 +6,7 @@ const ReviewContent: React.FC<{ content: string }> = ({ content }) => {
     .filter((section) => section.trim() !== "");
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-3">
       {sections.map((section, index) => {
         const [title, ...points] = section
           .replaceAll(/👍/g, "•")

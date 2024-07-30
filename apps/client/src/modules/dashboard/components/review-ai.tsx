@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useAIStore } from "../store/ai.store";
@@ -7,8 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { CircleCheck, CircleX } from "lucide-react";
-import React, { useCallback, useRef } from "react";
+import { CircleCheck, CircleX, Github, GitPullRequest } from "lucide-react";
+import React, { useEffect } from "react";
 import { usePullRequestsStore } from "../store/pull-requests.store";
 import { TextGenerateEffect } from "@/common/components/ui/generated-text";
 import { cn } from "@/lib/cn";
@@ -21,10 +22,29 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/common/components/ui/tabs";
+import { useToast } from "@/common/hooks/use-toaster";
+import { convertFeedbackToMarkdown } from "@/common/helpers/transformers";
+import { LoadingSpinner } from "@/common/components/ui/loading";
 
 const ReviewAI = () => {
   const { aiReviews, aiLoading } = useAIStore();
-  const { selectedNumberPR } = usePullRequestsStore();
+  const { toast } = useToast();
+  const {
+    selectedNumberPR,
+    submitPullRequestReview,
+    submitPullRequestLoading,
+    submitPullRequestSuccess,
+  } = usePullRequestsStore();
+
+  useEffect(() => {
+    if (submitPullRequestSuccess)
+      toast({
+        title: "Pull request submitted",
+        description: "Your review has been submitted successfully",
+        variant: "default",
+      });
+  }, [submitPullRequestSuccess]);
+
   if (!selectedNumberPR) return;
 
   return (
@@ -65,8 +85,8 @@ const ReviewAI = () => {
                         </span>
                       </AccordionTrigger>
                       <AccordionContent>
-                        <DiffViewer changes={review.changes} />
                         <ReviewContent content={review.automatedReview} />
+                        <DiffViewer changes={review.changes} />
                       </AccordionContent>
                     </AccordionItem>
                   );
@@ -90,9 +110,9 @@ const ReviewAI = () => {
                       >
                         <span className="text-left flex gap-x-2">
                           {goodPoints > badPoints ? (
-                            <CircleCheck size={18} className="text-green-700" />
+                            <CircleCheck size={18} className="text-green-500" />
                           ) : (
-                            <CircleX size={18} className="text-red-700" />
+                            <CircleX size={18} className="text-red-500" />
                           )}
                           {truncatePath(review.filename, 2)}
                         </span>
@@ -106,8 +126,34 @@ const ReviewAI = () => {
                     value={truncatePath(review.filename, 2)}
                     className="w-full col-span-8 my-0 p-5 py-0"
                   >
+                    <div>
+                      <div className="border flex justify-between bg-opacity-50 rounded-md p-4 mb-4">
+                        <span className="flex items-center text-sm gap-x-2">
+                          <GitPullRequest size={20} />
+                          Generated review
+                        </span>
+                        <div
+                          onClick={() =>
+                            submitPullRequestReview(
+                              convertFeedbackToMarkdown(review.automatedReview),
+                              review.filename,
+                              review.changes
+                            )
+                          }
+                          className="text-xs rounded-md bg-white flex space-x-2 text-black p-3 py-1.5 cursor-pointer font-semibold"
+                        >
+                          {submitPullRequestLoading ? (
+                            <LoadingSpinner />
+                          ) : (
+                            <Github size={16} />
+                          )}
+
+                          <span>Publish on GitHub</span>
+                        </div>
+                      </div>
+                      <ReviewContent content={review.automatedReview} />
+                    </div>
                     <DiffViewer changes={review.changes} />
-                    <ReviewContent content={review.automatedReview} />
                   </TabsContent>
                 ))}
               </Tabs>
