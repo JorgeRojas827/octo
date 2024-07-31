@@ -3,11 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/cn";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import Provider from "@/common/helpers/client-provider";
 import { setupAxios } from "@/common/helpers/axios-helper";
 import { apiInstance } from "@/lib/axios/instances";
 import { Toaster } from "@/common/components/ui/toaster";
+import { authOptions } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 

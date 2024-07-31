@@ -1,5 +1,4 @@
-import ButtonAI from "./ai-button";
-import ReviewAI from "./review-ai";
+import { Badge } from "@/common/components/ui/badge";
 
 const AIReview = () => {
   return (
