@@ -1,7 +1,21 @@
 module.exports = {
   apps: [
     {
-      script: "npm start:web",
+      name: "octo-client",
+      script: "node_modules/next/dist/bin/next",
+      args: "start",
+      cwd: "./apps/client",
+      env: {
+        NODE_ENV: "production",
+      },
+    },
+    {
+      name: "octo-back",
+      script: "dist/main.js",
+      cwd: "./apps/server",
+      env: {
+        NODE_ENV: "production",
+      },
     },
   ],
 
@@ -15,7 +29,7 @@ module.exports = {
       path: "/home/ubuntu",
       "pre-deploy-local": "",
       "post-deploy":
-        "source ~/.nvm/nvm.sh && npm install && cd /apps/client && npm run build && pm2 reload ecosystem.config.js --env production",
+        "source ~/.nvm/nvm.sh && npm install && npm run build:web && npm run build:server && pm2 reload ecosystem.config.js --env production",
       "pre-setup": "",
       ssh_options: "ForwardAgent=yes",
     },

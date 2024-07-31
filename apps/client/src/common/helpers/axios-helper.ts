@@ -5,8 +5,8 @@ import {
   IGithubLoginToken,
 } from "@/common/interfaces/auth-interface";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { signOut } from "next-auth/react";
+import { authOptions } from "@/lib/auth";
 
 const POST_USER_URL = process.env.API_POST_USER_URL!;
 
