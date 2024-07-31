@@ -7,8 +7,8 @@ import api from "@/common/helpers/axios-helper";
 export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET as string,
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
 
       profile(profile) {
         return {
