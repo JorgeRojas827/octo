@@ -7,7 +7,7 @@
     "dev": "pnpm run --parallel dev",
     "build:server": "pnpm --filter octo-back build",
     "build:web": "pnpm --filter octo-client build",
-    "start:server": "pnpm --filter octo-back start:prod",
+    "start:server": "pnpm --filter octo-back start",
     "start:web": "pnpm --filter octo-client start"
   },
   "keywords": [],
