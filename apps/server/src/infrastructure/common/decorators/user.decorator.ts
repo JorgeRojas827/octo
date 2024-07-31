@@ -4,6 +4,7 @@ export interface IUserDecorator {
   userId: string;
   email: string;
   username: string;
+  accessToken: string;
 }
 
 export const User = createParamDecorator(

@@ -13,6 +13,9 @@ export class GithubRepositoriesController {
 
   @PrivateRoute(MethodEnum.GET)
   async getRepositories(@User() user: IUserDecorator) {
-    return this.githubService.getUserRepositories(user.username);
+    return this.githubService.getUserRepositories(
+      user.username,
+      user.accessToken,
+    );
   }
 }

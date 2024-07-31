@@ -6,13 +6,14 @@ export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
   async upsert(userData: IUser) {
-    const { email, username, githubId, fullName } = userData;
+    const { email, username, githubId, fullName, accessToken } = userData;
 
     const info = {
       email,
       username,
       fullName: fullName || '',
       lastActiveAt: new Date(),
+      accessToken,
     };
 
     return await this.prisma.user.upsert({
@@ -39,7 +40,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async create(userData: IUser) {
-    const { githubId, email, username, fullName } = userData;
+    const { githubId, email, username, fullName, accessToken } = userData;
 
     return await this.prisma.user.create({
       data: {
@@ -47,6 +48,7 @@ export class UserRepository implements IUserRepository {
         email,
         username,
         fullName,
+        accessToken,
         lastActiveAt: new Date(),
       },
     });

@@ -6,7 +6,7 @@ const ReviewContent: React.FC<{ content: string }> = ({ content }) => {
     .filter((section) => section.trim() !== "");
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-3">
       {sections.map((section, index) => {
         const [title, ...points] = section
           .replaceAll(/👍/g, "•")
@@ -21,7 +21,7 @@ const ReviewContent: React.FC<{ content: string }> = ({ content }) => {
                 .replaceAll(/\#/g, "")
                 .replaceAll("PR Review", "")}
             </h4>
-            <ul className="list-none font-light space-y-1">
+            <ul className="font-light text-sm space-y-1">
               {points.map((point, idx) => (
                 <li key={idx} className="flex items-start">
                   <span className="mr-2">{point.slice(0, 2)}</span>

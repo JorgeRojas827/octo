@@ -5,6 +5,7 @@ export interface IGithubLoginRequest {
   githubId: string | unknown;
   username: string;
   fullName: string;
+  accessToken: string;
 }
 
 export interface IGithubLoginResponse

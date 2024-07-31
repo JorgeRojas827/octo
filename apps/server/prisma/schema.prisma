@@ -19,6 +19,7 @@ model User {
   githubId     String   @unique
   fullName     String
   username     String
+  accessToken  String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt()
   lastActiveAt DateTime

@@ -4,7 +4,9 @@ import ReviewAI from "./review-ai";
 const AIReview = () => {
   return (
     <div>
-      <ButtonAI />
+      <div className="md:hidden block">
+        <ButtonAI />
+      </div>
       <ReviewAI />
     </div>
   );

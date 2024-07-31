@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import Provider from "@/common/helpers/client-provider";
 import { setupAxios } from "@/common/helpers/axios-helper";
 import { apiInstance } from "@/lib/axios/instances";
+import { Toaster } from "@/common/components/ui/toaster";
 import { authOptions } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,6 +38,7 @@ export default async function RootLayout({
           )}
         >
           {children}
+          <Toaster />
         </body>
       </html>
     </Provider>

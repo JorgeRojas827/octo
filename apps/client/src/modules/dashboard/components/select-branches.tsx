@@ -24,28 +24,30 @@ export const SelectBranches = () => {
   } = useBranchesStore();
 
   useEffect(() => {
-    if (selectedRepo) {
+    if (selectedRepo)
       clearSelectedBranch().then(() => fetchAllBranches(selectedRepo));
-    }
   }, [selectedRepo]);
 
   return (
-    <Select
-      disabled={!selectedRepo || branchesLoading}
-      onValueChange={setSelectedBranch}
-      value={selectedBranch}
-    >
-      <SelectTrigger disabled={branchesLoading && !!selectedRepo}>
-        <SelectValue placeholder="Select a branch" />
-      </SelectTrigger>
-      <SelectContent>
-        {branches &&
-          branches.map((branch) => (
-            <SelectItem key={branch.name} value={branch.name}>
-              {branch.name}
-            </SelectItem>
-          ))}
-      </SelectContent>
-    </Select>
+    <div className="space-y-2">
+      <label>Branch</label>
+      <Select
+        disabled={!selectedRepo || branchesLoading}
+        onValueChange={setSelectedBranch}
+        value={selectedBranch}
+      >
+        <SelectTrigger disabled={branchesLoading && !!selectedRepo}>
+          <SelectValue placeholder="Select a branch" />
+        </SelectTrigger>
+        <SelectContent>
+          {branches &&
+            branches.map((branch) => (
+              <SelectItem key={branch.name} value={branch.name}>
+                {branch.name}
+              </SelectItem>
+            ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

@@ -3,7 +3,6 @@ import { env } from '@infrastructure/configure/configure-loader';
 import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
 import { Octokit } from '@octokit/rest';
 import { I18nService } from 'nestjs-i18n';
 import { BranchesResponseDto } from '../dtos/branches-response.dto';
@@ -20,7 +19,6 @@ import * as moment from 'moment';
 @Injectable()
 export class GithubService {
   private logger = new Logger(GithubService.name);
-  private octokit: Octokit;
   private prObjectKey = '{{PR_OBJECT}}';
 
   constructor(
@@ -31,20 +29,11 @@ export class GithubService {
     private readonly vercelService: VercelService,
   ) {
     this.userUseCases = new UserUseCases(this.prisma);
-    this.configureOctokit();
   }
 
-  configureOctokit() {
-    this.octokit = new Octokit({
-      authStrategy: createOAuthAppAuth,
-      auth: {
-        clientId: this.configService.get<string>(
-          env.externalServices.github.clientId,
-        ),
-        clientSecret: this.configService.get<string>(
-          env.externalServices.github.clientSecret,
-        ),
-      },
+  configureOctokit(token: string): Octokit {
+    return new Octokit({
+      auth: token,
       log: {
         debug: (message) => this.logger.log(message),
         info: (message) => this.logger.log(message),
@@ -54,9 +43,10 @@ export class GithubService {
     });
   }
 
-  async getUserRepositories(username: string) {
+  async getUserRepositories(username: string, accessToken: string) {
     try {
-      const repositories = await this.octokit.rest.repos.listForUser({
+      const octokit = this.configureOctokit(accessToken);
+      const repositories = await octokit.rest.repos.listForUser({
         username,
       });
 
@@ -82,12 +72,13 @@ export class GithubService {
     }
   }
 
-  async getPRCountsByMonth(owner: string, repo: string) {
+  async getPRCountsByMonth(owner: string, repo: string, accessToken: string) {
+    const octokit = this.configureOctokit(accessToken);
     const today = new Date();
     const sixMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 6, 1);
 
     const pullRequests = (
-      await this.octokit.pulls.list({
+      await octokit.pulls.list({
         repo,
         owner,
         state: 'all',
@@ -125,13 +116,18 @@ export class GithubService {
     return prCountsByMonth;
   }
 
-  async getCommitCountsByMonth(owner: string, repo: string) {
+  async getCommitCountsByMonth(
+    owner: string,
+    repo: string,
+    accessToken: string,
+  ) {
     const getCommitDate = (commit: any): string =>
       new Date(commit.commit.author?.date ?? commit.commit.committer?.date)
         .toISOString()
         .split('T')[0];
 
-    const commits = await this.octokit.repos.listCommits({
+    const octokit = this.configureOctokit(accessToken);
+    const commits = await octokit.repos.listCommits({
       owner,
       repo,
     });
@@ -155,15 +151,17 @@ export class GithubService {
     repo: string,
     owner: string,
     pull_number: number,
+    accessToken: string,
   ) {
     try {
-      const { data: pullRequest } = await this.octokit.pulls.get({
+      const octokit = this.configureOctokit(accessToken);
+      const { data: pullRequest } = await octokit.pulls.get({
         owner,
         repo,
         pull_number,
       });
 
-      const { data: commits } = await this.octokit.pulls.listCommits({
+      const { data: commits } = await octokit.pulls.listCommits({
         owner,
         repo,
         pull_number,
@@ -190,13 +188,18 @@ export class GithubService {
     }
   }
 
-  async getBranchesByRepository(repository: string, username: string) {
+  async getBranchesByRepository(
+    repository: string,
+    username: string,
+    accessToken: string,
+  ) {
     try {
-      const branches = await this.octokit.rest.repos.listBranches({
+      const octokit = this.configureOctokit(accessToken);
+      const branches = await octokit.rest.repos.listBranches({
         owner: username,
         repo: repository,
       });
-      const pulls = await this.octokit.pulls.list({
+      const pulls = await octokit.pulls.list({
         repo: repository,
         owner: username,
         state: 'all',
@@ -207,12 +210,21 @@ export class GithubService {
       const closedPRs = pulls.data.filter((pr) => pr.state === 'closed').length;
       const mergedPRs = pulls.data.filter((pr) => pr.merged_at !== null).length;
 
-      const prByMonth = await this.getPRCountsByMonth(username, repository);
+      const prByMonth = await this.getPRCountsByMonth(
+        username,
+        repository,
+        accessToken,
+      );
       const commitsByMonth = await this.getCommitCountsByMonth(
         username,
         repository,
+        accessToken,
       );
-      const timeMetrics = await this.calculateTimeMetrics(username, repository);
+      const timeMetrics = await this.calculateTimeMetrics(
+        username,
+        repository,
+        accessToken,
+      );
 
       const response: BranchesResponseDto[] = branches.data.map((branch) => ({
         name: branch.name,
@@ -254,10 +266,12 @@ export class GithubService {
     repository: string,
     username: string,
     commitSha: string,
+    accessToken: string,
   ) {
     try {
+      const octokit = this.configureOctokit(accessToken);
       const pullRequests =
-        await this.octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+        await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
           owner: username,
           repo: repository,
           commit_sha: commitSha,
@@ -285,9 +299,11 @@ export class GithubService {
     repository: string,
     username: string,
     pull_number: number,
+    accessToken: string,
   ) {
     try {
-      const response = await this.octokit.rest.pulls.listFiles({
+      const octokit = this.configureOctokit(accessToken);
+      const response = await octokit.rest.pulls.listFiles({
         owner: username,
         repo: repository,
         pull_number,
@@ -311,11 +327,13 @@ export class GithubService {
     repository: string,
     username: string,
     pull_number: number,
+    accessToken: string,
   ) {
     const files = await this.getPullRequestsFiles(
       repository,
       username,
       pull_number,
+      accessToken,
     );
 
     const USER_PROMPT = this.configService.get<string>(
@@ -362,15 +380,16 @@ export class GithubService {
     return results;
   }
 
-  async calculateTimeMetrics(owner, repo) {
-    const pullRequests = await this.octokit.pulls.list({
+  async calculateTimeMetrics(owner: string, repo: string, accessToken: string) {
+    const octokit = this.configureOctokit(accessToken);
+    const pullRequests = await octokit.pulls.list({
       owner,
       repo,
       state: 'all',
     });
     const prs = await Promise.all(
       pullRequests.data.map(async (pr) => {
-        const reviews = await this.octokit.pulls.listReviews({
+        const reviews = await octokit.pulls.listReviews({
           owner,
           repo,
           pull_number: pr.number,
@@ -426,6 +445,42 @@ export class GithubService {
       timeToFirstReview,
       lastReviewToMerge,
     };
+  }
+
+  async createReviewComment(
+    repository: string,
+    username: string,
+    pull_number: number,
+    file: string,
+    commitId: string,
+    review: string,
+    line: number,
+    accessToken: string,
+  ) {
+    try {
+      const octokit = this.configureOctokit(accessToken);
+
+      await octokit.rest.pulls.createReviewComment({
+        owner: username,
+        repo: repository,
+        pull_number,
+        body: review,
+        path: file,
+        commit_id: commitId,
+        line,
+      });
+    } catch (error) {
+      throw new Error(
+        this.i18n.t('github_messages.COMMENT_NOT_CREATED', {
+          args: {
+            username,
+            error: error.message,
+            repo: repository,
+            pull_number,
+          },
+        }),
+      );
+    }
   }
 
   processFile = async (file: any, userPrompt) => {

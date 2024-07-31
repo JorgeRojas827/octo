@@ -21,3 +21,25 @@ export async function getPullRequestDetails(
     url: `/github/pulls/details?repository=${repository}&pullNumber=${pullNumber}`,
   });
 }
+
+export async function submitPullRequestReview(
+  repository: string,
+  pullNumber: string,
+  review: string,
+  filename: string,
+  commitId: string,
+  line: number
+) {
+  return await httpRequest({
+    url: `/github/pulls/submit-review`,
+    method: "POST",
+    body: {
+      repository,
+      pullNumber,
+      review,
+      filename,
+      commitId,
+      line,
+    },
+  });
+}
