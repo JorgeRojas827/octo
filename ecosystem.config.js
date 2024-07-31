@@ -23,7 +23,7 @@ module.exports = {
     production: {
       key: "octo_key.pem",
       user: "ubuntu",
-      host: "54.159.109.95",
+      host: "18.234.93.85",
       ref: "origin/develop",
       repo: "https://github.com/JorgeRojas827/octo",
       path: "/home/ubuntu",
