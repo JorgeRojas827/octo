@@ -59,7 +59,8 @@ const ReviewAI = () => {
       <div
         className={cn(
           "w-full border py-2 min-h-[450px] p-4 mt-24 md:mt-0 rounded-md",
-          aiLoading && "items-center justify-center h-full !flex !flex-col"
+          (aiLoading || !aiReviews) &&
+            "items-center justify-center h-full !flex !flex-col"
         )}
       >
         <div className="grid grid-cols-1 gap-4">
