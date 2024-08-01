@@ -10,6 +10,7 @@ import {
 } from "@/common/components/ui/accordion";
 import {
   CircleCheck,
+  CircleMinus,
   CircleX,
   GhostIcon,
   Github,
@@ -75,6 +76,8 @@ const ReviewAI = () => {
                     review.automatedReview.match(/👍/g)?.length || 0;
                   const badPoints =
                     review.automatedReview.match(/❌/g)?.length || 0;
+
+                  console.log(goodPoints, badPoints);
                   return (
                     <AccordionItem
                       key={index}
@@ -82,10 +85,15 @@ const ReviewAI = () => {
                     >
                       <AccordionTrigger>
                         <span className="flex items-center text-sm gap-x-2">
-                          {goodPoints > badPoints ? (
-                            <CircleCheck size={18} className="text-green-700" />
+                          {goodPoints == badPoints ? (
+                            <CircleMinus
+                              size={18}
+                              className="text-yellow-500"
+                            />
+                          ) : goodPoints > badPoints ? (
+                            <CircleCheck size={18} className="text-green-500" />
                           ) : (
-                            <CircleX size={18} className="text-red-700" />
+                            <CircleX size={18} className="text-red-500" />
                           )}
                           {truncatePath(review.filename, 3)}
                         </span>
@@ -115,7 +123,12 @@ const ReviewAI = () => {
                         className="w-full items-start justify-start hover:bg-black/20 data-[state=active]:bg-black/50"
                       >
                         <span className="text-left flex gap-x-2">
-                          {goodPoints > badPoints ? (
+                          {goodPoints == badPoints ? (
+                            <CircleMinus
+                              size={18}
+                              className="text-yellow-500"
+                            />
+                          ) : goodPoints > badPoints ? (
                             <CircleCheck size={18} className="text-green-500" />
                           ) : (
                             <CircleX size={18} className="text-red-500" />
