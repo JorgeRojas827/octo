@@ -6,10 +6,28 @@ import { Skeleton } from "@/common/components/ui/skeleton";
 import ButtonAI from "./ai-button";
 import { Separator } from "@/common/components/ui/separator";
 import AIReview from "./ai-review";
+import { DocumentIcon } from "@/common/components/icons/documents.icon";
 
 const DetailsPR = () => {
   const { pullRequestDetails, pullRequestDetailsLoading, selectedPR } =
     usePullRequestsStore();
+
+  if (!selectedPR) {
+    return (
+      <div className="flex flex-col relative w-full mt-20 justify-center items-center">
+        <DocumentIcon />
+        <div className="absolute flex flex-col justify-center items-center -bottom-10">
+          <h6 className="md:text-2xl text-xl font-semibold">
+            Select a branch, then a pull request
+          </h6>
+          <p className="md:text-sm text-xs text-muted-foreground">
+            Here you can see the details of the documents inside the pull
+            request
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <React.Fragment>

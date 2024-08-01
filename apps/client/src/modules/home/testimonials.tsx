@@ -8,20 +8,14 @@ const Testimonials = () => {
         <h4 className="text-6xl font-bold">Experiences with Octo:</h4>
         <section className="grid md:grid-cols-2 gap-6">
           <TestimonialCard
-            name="Jonh Kennedy"
-            username="@jonhkenn"
-            text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas placeat,
-        tempore asperiores harum modi provident, sequi cumque at veritatis illo
-        minus nihil magnam autem odit non aut vero nam omnis id. Sint quod
-        voluptate cum cumque impedit dolores, placeat quaerat."
+            name="Diego Lozano"
+            username="Techinical Team Leader at Delfosti"
+            text="Reviewing Merge Requests is a daily task that consumes a considerable amount of time. A tool that identifies patterns of good and bad practices not only helps reduce the backlog but also streamlines the analysis process, enabling a more efficient and focused approach to addressing critical issues and improving overall code quality."
           />
           <TestimonialCard
-            name="Veronica Smith"
-            username="@versmith"
-            text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas placeat,
-        tempore asperiores harum modi provident, sequi cumque at veritatis illo
-        minus nihil magnam autem odit non aut vero nam omnis id. Sint quod
-        voluptate cum cumque impedit dolores, placeat quaerat."
+            name="Leonardo Iglesias"
+            username="Developer at Flash Gas"
+            text="The daily task of reviewing code can be quite laborious. Octo is a tool that can greatly alleviate this burden for developers. This allows them to dedicate more time and resources to key areas, thereby improving the quality, efficiency, and overall effectiveness of the code."
           />
         </section>
       </MaxWidthWrapper>

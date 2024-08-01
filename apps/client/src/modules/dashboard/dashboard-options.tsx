@@ -31,7 +31,7 @@ const DashboardOptions = () => {
             <TabsTrigger value="metrics" className="w-1/2 hover:bg-black/15">
               Metrics
             </TabsTrigger>
-            <TabsTrigger value="password" className="w-1/2 hover:bg-black/15">
+            <TabsTrigger value="reviewer" className="w-1/2 hover:bg-black/15">
               AI Reviewer
             </TabsTrigger>
           </TabsList>
@@ -39,12 +39,12 @@ const DashboardOptions = () => {
             <RepositoryName />
             <RepositoryMetrics />
           </TabsContent>
-          <TabsContent value="password">
+          <TabsContent value="reviewer">
             <div className="grid md:grid-cols-2 grid-cols-1 gap-4 my-4">
               <SelectBranches />
               <SelectPullRequest />
             </div>
-            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-1">
+            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-1 mb-5">
               <DetailsPR />
               <div className="lg:hidden block">
                 <AIReview />

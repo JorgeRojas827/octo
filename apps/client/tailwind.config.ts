@@ -66,6 +66,7 @@ const config = {
         tilt: "tilt 10s infinite linear",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
       },
       keyframes: {
         "accordion-down": {
@@ -118,6 +119,11 @@ const config = {
           },
           "75%": {
             transform: "rotate(-0.5deg)",
+          },
+        },
+        "border-beam": {
+          "100%": {
+            "offset-distance": "100%",
           },
         },
       },

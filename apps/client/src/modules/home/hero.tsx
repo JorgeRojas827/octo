@@ -1,4 +1,6 @@
 import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
+import GetStartedButton from "./components/get-started";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -16,6 +18,9 @@ const Hero = () => {
             workflows. It helps teams efficiently manage and track pull
             requests, ensuring seamless integration and high code quality.
           </p>
+          <GetStartedButton>
+            Get Started <ArrowRight size={24} className="ml-2 font-bold"/>
+          </GetStartedButton>
         </div>
         <div className="absolute w-80 h-80 bg-pink-600 filter blur-3xl rounded-full top-[-60%] left-[10%] opacity-50 z-10 animate-blob animate-delay-2000"></div>
         <div className="absolute w-96 h-96 bg-purple-600 filter blur-3xl rounded-full top-[1%] left-[25%] opacity-50 z-10 animate-blob animate-delay-2000"></div>

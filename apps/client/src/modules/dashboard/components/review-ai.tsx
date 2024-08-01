@@ -8,7 +8,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { CircleCheck, CircleX, Github, GitPullRequest } from "lucide-react";
+import {
+  CircleCheck,
+  CircleMinus,
+  CircleX,
+  GhostIcon,
+  Github,
+  GitPullRequest,
+} from "lucide-react";
 import React, { useEffect } from "react";
 import { usePullRequestsStore } from "../store/pull-requests.store";
 import { TextGenerateEffect } from "@/common/components/ui/generated-text";
@@ -52,7 +59,8 @@ const ReviewAI = () => {
       <div
         className={cn(
           "w-full border py-2 min-h-[450px] p-4 mt-24 md:mt-0 rounded-md",
-          aiLoading && "items-center justify-center h-full !flex !flex-col"
+          (aiLoading || !aiReviews) &&
+            "items-center justify-center h-full !flex !flex-col"
         )}
       >
         <div className="grid grid-cols-1 gap-4">
@@ -69,6 +77,8 @@ const ReviewAI = () => {
                     review.automatedReview.match(/👍/g)?.length || 0;
                   const badPoints =
                     review.automatedReview.match(/❌/g)?.length || 0;
+
+                  console.log(goodPoints, badPoints);
                   return (
                     <AccordionItem
                       key={index}
@@ -76,10 +86,15 @@ const ReviewAI = () => {
                     >
                       <AccordionTrigger>
                         <span className="flex items-center text-sm gap-x-2">
-                          {goodPoints > badPoints ? (
-                            <CircleCheck size={18} className="text-green-700" />
+                          {goodPoints == badPoints ? (
+                            <CircleMinus
+                              size={18}
+                              className="text-yellow-500"
+                            />
+                          ) : goodPoints > badPoints ? (
+                            <CircleCheck size={18} className="text-green-500" />
                           ) : (
-                            <CircleX size={18} className="text-red-700" />
+                            <CircleX size={18} className="text-red-500" />
                           )}
                           {truncatePath(review.filename, 3)}
                         </span>
@@ -109,7 +124,12 @@ const ReviewAI = () => {
                         className="w-full items-start justify-start hover:bg-black/20 data-[state=active]:bg-black/50"
                       >
                         <span className="text-left flex gap-x-2">
-                          {goodPoints > badPoints ? (
+                          {goodPoints == badPoints ? (
+                            <CircleMinus
+                              size={18}
+                              className="text-yellow-500"
+                            />
+                          ) : goodPoints > badPoints ? (
                             <CircleCheck size={18} className="text-green-500" />
                           ) : (
                             <CircleX size={18} className="text-red-500" />
@@ -160,7 +180,10 @@ const ReviewAI = () => {
             </React.Fragment>
           ) : (
             <div className="flex justify-center items-center w-full h-full">
-              x
+              <GhostIcon size={24} className="mr-2 opacity-50" />
+              <span className="text-lg font-semibold opacity-50">
+                Ask AI to review your pull request
+              </span>
             </div>
           )}
         </div>
