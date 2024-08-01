@@ -9,7 +9,7 @@ const Functions = () => {
         <div className="space-y-4 md:flex md:justify-center md:items-center md:gap-4">
           <div className="rounded-lg md:w-3/12">
             <Image
-              src="/functionallity/signin.png"
+              src="/functionallity/signin.webp"
               alt="Sign in image"
               className="rounded-lg"
               layout="responsive"
@@ -19,7 +19,7 @@ const Functions = () => {
           </div>
           <div className="rounded-lg relative md:w-6/12">
             <Image
-              src="/functionallity/review.png"
+              src="/functionallity/review.webp"
               alt="Review image"
               className="rounded-lg"
               layout="responsive"
@@ -30,7 +30,7 @@ const Functions = () => {
           </div>
           <div className="rounded-lg md:w-3/12">
             <Image
-              src="/functionallity/dashboard.png"
+              src="/functionallity/dashboard.webp"
               alt="Dashboard image"
               className="rounded-lg"
               layout="responsive"
