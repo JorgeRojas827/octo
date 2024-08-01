@@ -8,7 +8,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { CircleCheck, CircleX, Github, GitPullRequest } from "lucide-react";
+import {
+  CircleCheck,
+  CircleX,
+  GhostIcon,
+  Github,
+  GitPullRequest,
+} from "lucide-react";
 import React, { useEffect } from "react";
 import { usePullRequestsStore } from "../store/pull-requests.store";
 import { TextGenerateEffect } from "@/common/components/ui/generated-text";
@@ -160,7 +166,10 @@ const ReviewAI = () => {
             </React.Fragment>
           ) : (
             <div className="flex justify-center items-center w-full h-full">
-              x
+              <GhostIcon size={24} className="mr-2 opacity-50" />
+              <span className="text-lg font-semibold opacity-50">
+                Ask AI to review your pull request
+              </span>
             </div>
           )}
         </div>

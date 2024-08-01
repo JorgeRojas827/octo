@@ -13,6 +13,14 @@ interface DiffViewerProps {
 
 const DiffViewer: React.FC<DiffViewerProps> = ({ changes }) => {
   const renderDiff = (diff: string) => {
+    if (!diff) {
+      return (
+        <div className="text-gray-500">
+          This file does not have a programming language associated with it.
+        </div>
+      );
+    }
+
     return diff.split("\n").map((line, index) => {
       if (line.startsWith("@@")) {
         return (

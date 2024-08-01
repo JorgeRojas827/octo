@@ -59,7 +59,7 @@ export const SelectPullRequest = () => {
               (!!selectedBranchObject.commitSha && pullRequests.length) ||
               pullRequestsLoading
                 ? "Select a pull request"
-                : !!pullRequests.length &&
+                : !pullRequests.length &&
                   selectedBranchObject.commitSha &&
                   "Nothing is here"
             }
