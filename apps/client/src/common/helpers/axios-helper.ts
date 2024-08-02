@@ -19,6 +19,7 @@ export const setupAxios = (axiosInstance: AxiosInstance) => {
         `Bearer ${session?.accessToken}`;
       axiosInstance.defaults.headers["x-api-key"] =
         process.env.NEXT_PUBLIC_API_KEY!;
+
       return config;
     },
     (err: AxiosError) => Promise.reject(err)
@@ -27,6 +28,8 @@ export const setupAxios = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
+      console.log({ error });
+
       const { data, status } = error.response!;
       switch (status) {
         case 400:
