@@ -32,7 +32,7 @@ import {
         ),
         loaderOptions: {
           path: path.resolve(__dirname, '../../lib/i18n/'),
-          watch: true,
+          watch: false,
         },
         typesOutputPath: path.join(
           __dirname,
