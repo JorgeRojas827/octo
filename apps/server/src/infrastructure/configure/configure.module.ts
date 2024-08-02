@@ -34,10 +34,6 @@ import {
           path: path.resolve(__dirname, '../../lib/i18n/'),
           watch: false,
         },
-        typesOutputPath: path.join(
-          __dirname,
-          '../../../src/lib/i18n.generated.ts',
-        ),
       }),
       resolvers: [new HeaderResolver(['x-lang']), AcceptLanguageResolver],
     }),
