@@ -15,14 +15,21 @@ const redirectToDashboard = (req: NextRequest) => {
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.APP_JWT_SECRET });
+  console.log({ token });
+
   const sessionCookie = token?.accessToken;
 
   const secretJWT = process.env.APP_JWT_SECRET;
+  console.log({ secretJWT });
   const currentUrl = req.nextUrl.pathname;
 
   if (currentUrl.includes("/api/auth")) return;
 
-  if (!sessionCookie && !secretJWT) return redirectToLanding(req);
+  if (!sessionCookie && !secretJWT) {
+    console.log("redirect to landing on if");
+
+    return redirectToLanding(req);
+  }
 
   try {
     const {
@@ -32,6 +39,7 @@ export async function middleware(req: NextRequest) {
     if (expirationTime! * 1000 < Date.now()) Cookies.remove(auth_cookie);
     else if (currentUrl === "/") return redirectToDashboard(req);
   } catch (error) {
+    console.log("redirect to landing on catch");
     if (currentUrl !== "/") return redirectToLanding(req);
   }
 }
