@@ -45,7 +45,7 @@ const OverviewCards = () => {
               key={index}
               className="p-2 rounded-md border flex justify-center items-center flex-col space-y-3"
             >
-              <Skeleton className="h-4 w-[200px]"></Skeleton>
+              <Skeleton className="h-4 w-3/4"></Skeleton>
               <Skeleton className="h-12 w-[50px]"></Skeleton>
             </Skeleton>
           ))}
