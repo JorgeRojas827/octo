@@ -29,11 +29,9 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
-        console.log({ githubInstance });
         const { data: githubData } = await githubInstance.get(
           `/user/${user.id}`
         );
-        console.log({ githubData });
 
         const { data: userData } = await api.users.register({
           email: user.email,
@@ -42,7 +40,6 @@ export const authOptions: AuthOptions = {
           fullName: githubData.name,
           accessToken: account["access_token"] as string,
         });
-        console.log({ userData });
 
         token.accessToken = userData.access_token;
         token.userId = user.id;

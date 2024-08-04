@@ -28,16 +28,22 @@ export const SelectBranches = () => {
       clearSelectedBranch().then(() => fetchAllBranches(selectedRepo));
   }, [selectedRepo]);
 
+  const emptyBranches = !branchesLoading && !branches.length;
+
   return (
     <div className="space-y-2">
       <label>Branch</label>
       <Select
-        disabled={!selectedRepo || branchesLoading}
+        disabled={emptyBranches ?? (!selectedRepo || branchesLoading)}
         onValueChange={setSelectedBranch}
         value={selectedBranch}
       >
         <SelectTrigger disabled={branchesLoading && !!selectedRepo}>
-          <SelectValue placeholder="Select a branch" />
+          <SelectValue
+            placeholder={
+              emptyBranches ? "No opened pull request" : "Select a branch"
+            }
+          />
         </SelectTrigger>
         <SelectContent>
           {branches &&

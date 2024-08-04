@@ -78,7 +78,6 @@ const ReviewAI = () => {
                   const badPoints =
                     review.automatedReview.match(/❌/g)?.length || 0;
 
-                  console.log(goodPoints, badPoints);
                   return (
                     <AccordionItem
                       key={index}
@@ -179,7 +178,7 @@ const ReviewAI = () => {
               </Tabs>
             </React.Fragment>
           ) : (
-            <div className="flex justify-center items-center w-full h-full">
+            <div className="flex flex-col space-y-1 justify-center items-center w-full h-full">
               <GhostIcon size={24} className="mr-2 opacity-50" />
               <span className="text-lg font-semibold opacity-50">
                 Ask AI to review your pull request

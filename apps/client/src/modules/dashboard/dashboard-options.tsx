@@ -21,7 +21,7 @@ const DashboardOptions = () => {
     <div className="w-full">
       <div className="grid md:grid-cols-3 grid-cols-1 gap-4 my-4">
         <SelectRepositories />
-        <div className="invisible">
+        <div className="invisible hidden">
           <SelectBranches />
         </div>
       </div>
@@ -54,7 +54,7 @@ const DashboardOptions = () => {
         </Tabs>
       )}
       {!selectedRepo && (
-        <div className="flex flex-col relative w-full mt-44 justify-center items-center">
+        <div className="flex flex-col relative w-full mt-16 md:mt-44 justify-center items-center">
           <CoffeeIcon />
           <div className="absolute flex flex-col justify-center items-center -bottom-10">
             <h6 className="md:text-2xl text-xl font-semibold">

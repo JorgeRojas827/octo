@@ -205,6 +205,13 @@ export class GithubService {
         state: 'all',
       });
 
+      const openedPullRequests = pulls.data.filter(
+        (pull) => pull.state === 'open',
+      );
+      const branchesWithOpenPRs = branches.data.filter((branch) =>
+        openedPullRequests.some((pr) => pr.head.ref === branch.name),
+      );
+
       const totalPRs = pulls.data.length;
       const openPRs = pulls.data.filter((pr) => pr.state === 'open').length;
       const closedPRs = pulls.data.filter((pr) => pr.state === 'closed').length;
@@ -226,10 +233,12 @@ export class GithubService {
         accessToken,
       );
 
-      const response: BranchesResponseDto[] = branches.data.map((branch) => ({
-        name: branch.name,
-        commitSha: branch.commit.sha,
-      }));
+      const response: BranchesResponseDto[] = branchesWithOpenPRs.map(
+        (branch) => ({
+          name: branch.name,
+          commitSha: branch.commit.sha,
+        }),
+      );
 
       return {
         branches: response,

@@ -28,8 +28,6 @@ export const setupAxios = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
-      console.log({ error });
-
       const { data, status } = error.response!;
       switch (status) {
         case 400:
