@@ -286,13 +286,13 @@ export class GithubService {
           commit_sha: commitSha,
         });
 
-      const response: PullRequestsResponseDto[] = pullRequests.data.map(
-        (pullRequest) => ({
+      const response: PullRequestsResponseDto[] = pullRequests.data
+        .filter((pullRequest) => pullRequest.state === 'open')
+        .map((pullRequest) => ({
           title: pullRequest.title,
           prNumber: pullRequest.number,
           state: pullRequest.state,
-        }),
-      );
+        }));
 
       return response;
     } catch (error) {
