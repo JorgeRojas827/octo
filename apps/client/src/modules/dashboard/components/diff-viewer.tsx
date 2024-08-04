@@ -48,12 +48,17 @@ const DiffViewer: React.FC<DiffViewerProps> = ({ changes }) => {
   };
 
   return (
-    <Accordion type="single" className="mt-5" collapsible>
+    <Accordion
+      type="single"
+      defaultValue="changes"
+      className="mt-5"
+      collapsible
+    >
       <AccordionItem value="changes">
         <AccordionTrigger className=" border bg-opacity-50 rounded-md px-5">
           <span className="flex items-center text-sm gap-x-2">
             <File size={16} />
-            Show file change
+            File changes
           </span>
         </AccordionTrigger>
         <AccordionContent className="mt-5">

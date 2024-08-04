@@ -46,13 +46,21 @@ export const TextGenerateEffect = ({
 }) => {
   const [titleScope, animateTitle] = useAnimate();
   const [subtitleScope, animateSubtitle] = useAnimate();
-  const [messageIndex, setMessageIndex] = useState(0);
+  const [messageIndex, setMessageIndex] = useState(
+    Math.floor(Math.random() * 5)
+  );
   let intervalId: NodeJS.Timeout;
 
   useEffect(() => {
     if (aiLoading) {
       intervalId = setInterval(() => {
-        setMessageIndex((prevIndex) => (prevIndex + 1) % randomMessages.length);
+        setMessageIndex((prevIndex) => {
+          let randomNum = Math.floor(Math.random() * 5);
+          while (prevIndex === randomNum) {
+            randomNum = Math.floor(Math.random() * 5);
+          }
+          return randomNum;
+        });
       }, 8000);
     } else {
       clearInterval(intervalId);

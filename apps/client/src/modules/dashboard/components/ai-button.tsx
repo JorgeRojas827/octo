@@ -9,7 +9,7 @@ import { useRepositoriesStore } from "../store/repository.store";
 const ButtonAI = () => {
   const { selectedRepo } = useRepositoriesStore();
   const { selectedNumberPR } = usePullRequestsStore();
-  const { fetchAIReview } = useAIStore();
+  const { fetchAIReview, aiLoading } = useAIStore();
 
   return (
     <React.Fragment>
@@ -20,6 +20,7 @@ const ButtonAI = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
               <button
                 onClick={() => fetchAIReview(selectedRepo, selectedNumberPR)}
+                disabled={aiLoading}
                 className="relative px-4 py-4 bg-black rounded-lg leading-none flex items-center justify-between divide-x divide-gray-600"
               >
                 <span className="transition duration-200 flex items-center">
