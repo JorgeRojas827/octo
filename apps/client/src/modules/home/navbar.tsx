@@ -18,14 +18,12 @@ const Navbar = () => {
       {/* Navbar Desktop */}
       <MaxWidthWrapper className="hidden md:flex items-center justify-between py-2">
         <section className="flex items-center space-x-10">
-          <Link href={"/"} className="font-bold text-xl">
+          <Link
+            href={"/"}
+            className="font-bold text-xl flex items-center gap-x-4"
+          >
             <Image src="/octo.svg" alt="Octo" width={50} height={50} />
-          </Link>
-          <Link href={"/"} className="font-light">
-            About us
-          </Link>
-          <Link href={"/"} className="font-light">
-            Resources
+            Octo
           </Link>
         </section>
         <section>
@@ -57,18 +55,6 @@ const Navbar = () => {
             </SheetTitle>
             <nav className="flex flex-col justify-between" id="mobile-menu">
               <div className="flex flex-col gap-y-4">
-                <Link
-                  href={"/menu"}
-                  className="font-medium text-zinc-400 hover:text-primary"
-                >
-                  About us
-                </Link>
-                <Link
-                  href={"/discounts"}
-                  className="font-medium text-zinc-400 hover:text-primary"
-                >
-                  Resources
-                </Link>
                 <SignInButton />
               </div>
             </nav>
