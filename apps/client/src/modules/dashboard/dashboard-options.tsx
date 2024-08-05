@@ -11,10 +11,9 @@ import {
 } from "@/common/components/ui/tabs";
 import RepositoryName from "./components/repository-name";
 import RepositoryMetrics from "./components/repository-metrics";
-import AIReview from "./components/ai-review";
-import DetailsPR from "./components/details-pr";
 import SelectBranchAndPR from "./components/select-branch-pr";
 import GeneralDetails from "./components/general-details";
+import { SelectBranches } from "./components/select-branches";
 
 const DashboardOptions = () => {
   const { selectedRepo } = useRepositoriesStore();
