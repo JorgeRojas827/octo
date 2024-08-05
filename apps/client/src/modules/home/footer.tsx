@@ -10,14 +10,6 @@ const Footer = () => {
           <Link href={"/"} className="font-bold text-xl">
             Octo
           </Link>
-          <section className="flex items-center space-x-4">
-            <Link href={"#"} className="font-light">
-              About us
-            </Link>
-            <Link href={"#"} className="font-light">
-              Resources
-            </Link>
-          </section>
         </div>
         <div className="flex flex-col gap-y-4">
           <Link

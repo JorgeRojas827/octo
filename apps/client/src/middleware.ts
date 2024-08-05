@@ -23,9 +23,7 @@ export async function middleware(req: NextRequest) {
 
   if (currentUrl.includes("/api/auth")) return;
 
-  if (!sessionCookie && !secretJWT) {
-    return redirectToLanding(req);
-  }
+  if (!sessionCookie && !secretJWT) return redirectToLanding(req);
 
   try {
     const {

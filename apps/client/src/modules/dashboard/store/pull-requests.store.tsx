@@ -98,6 +98,7 @@ export const usePullRequestsStore = create<IPullRequestsState>((set, get) => ({
     );
     set(() => ({ submitPullRequestLoading: false }));
     set(() => ({ submitPullRequestSuccess: true }));
+    set(() => ({ submitPullRequestSuccess: false }));
   },
 
   pullRequestChart: null,
