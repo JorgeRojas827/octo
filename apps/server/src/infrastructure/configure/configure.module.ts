@@ -8,6 +8,7 @@ import {
   AcceptLanguageResolver,
   HeaderResolver,
   I18nModule,
+  I18nOptionsWithoutResolvers,
 } from 'nestjs-i18n';
 
 @Module({
@@ -26,19 +27,25 @@ import {
     I18nModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        fallbackLanguage: configService.get<string>(
-          env.config.lang.defaultLang,
-        ),
-        loaderOptions: {
-          path: path.resolve(__dirname, '../../lib/i18n/'),
-          watch: true,
-        },
-        typesOutputPath: path.join(
-          __dirname,
-          '../../../src/lib/i18n.generated.ts',
-        ),
-      }),
+      useFactory: (configService: ConfigService) => {
+        const config: I18nOptionsWithoutResolvers = {
+          fallbackLanguage: configService.get<string>(
+            env.config.lang.defaultLang,
+          ),
+          loaderOptions: {
+            path: path.resolve(__dirname, '../../lib/i18n/'),
+            watch: false,
+          },
+        };
+
+        if (process.env.NODE_ENV === 'development')
+          config.typesOutputPath = path.join(
+            __dirname,
+            '../../../src/lib/i18n.generated.ts',
+          );
+
+        return config;
+      },
       resolvers: [new HeaderResolver(['x-lang']), AcceptLanguageResolver],
     }),
   ],

@@ -1,25 +1,17 @@
-import DashboardHeader from "@/components/Dashboard/DashboardHeader";
-import DashboardOptions from "@/components/Dashboard/DashboardOptions";
-import RepositoryMetrics from "@/components/Dashboard/RepositoryMetrics";
-import Notauthorized from "@/components/Notauthorized";
-import { Separator } from "@/components/ui/separator";
-import { currentUser } from "@clerk/nextjs/server";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper from "@/common/components/utils/max-width-wrapper";
+import DashboardHeader from "@/modules/dashboard/dashboard-header";
+import RepositoryMetrics from "@/modules/dashboard/components/repository-metrics";
+import DashboardOptions from "@/modules/dashboard/dashboard-options";
+import { Separator } from "@/common/components/ui/separator";
+import RepositoryName from "@/modules/dashboard/components/repository-name";
 
 const page = async () => {
-  const user = await currentUser();
-
-  if (!user) {
-    return <Notauthorized />
-  }
-
   return (
-    <div className="w-full h-screen">
+    <div className="w-full">
       <MaxWidthWrapper>
         <DashboardHeader />
-        <Separator/>
+        <Separator />
         <DashboardOptions />
-        <RepositoryMetrics />
       </MaxWidthWrapper>
     </div>
   );
