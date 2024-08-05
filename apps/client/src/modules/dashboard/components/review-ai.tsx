@@ -78,7 +78,6 @@ const ReviewAI = () => {
                   const badPoints =
                     review.automatedReview.match(/❌/g)?.length || 0;
 
-                  console.log(goodPoints, badPoints);
                   return (
                     <AccordionItem
                       key={index}
