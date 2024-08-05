@@ -29,8 +29,11 @@ Link: https://sharing.clickup.com/12910672/g/h/6-901702801572-7/01824822fe73391
 
 ### UX Low Design
 
-<img width="878" alt="Captura de pantalla 2024-08-04 a la(s) 23 32 41" src="https://github.com/user-attachments/assets/d4ee8efb-a29a-4c99-91d3-469c4f274bac">
+<img width="1100" alt="Captura de pantalla 2024-08-04 a la(s) 23 32 41" src="https://github.com/user-attachments/assets/d4ee8efb-a29a-4c99-91d3-469c4f274bac">
 
+### Demo
+
+https://github.com/user-attachments/assets/28a02340-ba66-42a1-93e2-addf1a6dc52c
 
 ### Setup
 
