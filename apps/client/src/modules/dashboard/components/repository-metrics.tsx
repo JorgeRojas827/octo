@@ -1,7 +1,5 @@
-import AIReview from "./ai-review";
 import PullDetailsAndCharts from "./pull/pull-details-and-charts";
 import OverviewCards from "./pull/overview-cards";
-import DetailsPR from "./details-pr";
 
 const RepositoryMetrics = () => {
   return (

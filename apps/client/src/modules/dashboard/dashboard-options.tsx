@@ -1,7 +1,6 @@
 "use client";
+
 import { SelectRepositories } from "./components/select-repositories";
-import { SelectBranches } from "./components/select-branches";
-import { SelectPullRequest } from "./components/select-pull-request";
 import { CoffeeIcon } from "@/common/components/icons/coffee.icon";
 import { useRepositoriesStore } from "./store/repository.store";
 import {
@@ -12,8 +11,9 @@ import {
 } from "@/common/components/ui/tabs";
 import RepositoryName from "./components/repository-name";
 import RepositoryMetrics from "./components/repository-metrics";
-import AIReview from "./components/ai-review";
-import DetailsPR from "./components/details-pr";
+import SelectBranchAndPR from "./components/select-branch-pr";
+import GeneralDetails from "./components/general-details";
+import { SelectBranches } from "./components/select-branches";
 
 const DashboardOptions = () => {
   const { selectedRepo } = useRepositoriesStore();
@@ -40,16 +40,8 @@ const DashboardOptions = () => {
             <RepositoryMetrics />
           </TabsContent>
           <TabsContent value="reviewer">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4 my-4">
-              <SelectBranches />
-              <SelectPullRequest />
-            </div>
-            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-1 mb-5">
-              <DetailsPR />
-              <div className="lg:hidden block">
-                <AIReview />
-              </div>
-            </div>
+            <SelectBranchAndPR />
+            <GeneralDetails />
           </TabsContent>
         </Tabs>
       )}

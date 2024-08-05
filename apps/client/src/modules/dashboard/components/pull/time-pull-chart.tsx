@@ -30,7 +30,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function TimePullChart() {
+export function TimePullChart({ className }: { className?: string }) {
   const { selectedRepo } = useRepositoriesStore();
   const { pullRequestTimeChart, pullRequestChartLoading } =
     usePullRequestsStore();

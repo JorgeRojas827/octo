@@ -15,6 +15,7 @@ const redirectToDashboard = (req: NextRequest) => {
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.APP_JWT_SECRET });
+
   const sessionCookie = token?.accessToken;
 
   const secretJWT = process.env.APP_JWT_SECRET;

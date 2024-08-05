@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/common/components/ui/select";
 import { useRepositoriesStore } from "../store/repository.store";
+import { driverObject } from "@/lib/driver";
+import { useTutorialStore } from "@/modules/tutorial/store";
 
 export const SelectRepositories = () => {
   const {
@@ -19,10 +21,24 @@ export const SelectRepositories = () => {
     fetchAllRepositories,
     repositoriesLoading,
   } = useRepositoriesStore();
+  const { repositoryShown, changeShown, _hasHydrated } = useTutorialStore();
 
+  console.log({ repositoryShown });
   useEffect(() => {
     fetchAllRepositories();
-  }, []);
+
+    if (repositoryShown === false && _hasHydrated) {
+      driverObject.highlight({
+        element: "#select-repository",
+        popover: {
+          title: "Select a repository",
+          description: "Choose a repository to view its metrics and more.",
+        },
+      });
+
+      changeShown("repositoryShown");
+    }
+  }, [_hasHydrated]);
 
   return (
     <div className="space-y-2">
@@ -32,7 +48,7 @@ export const SelectRepositories = () => {
         disabled={repositoriesLoading}
         value={selectedRepo}
       >
-        <SelectTrigger disabled={repositoriesLoading}>
+        <SelectTrigger disabled={repositoriesLoading} id="select-repository">
           <SelectValue placeholder="Select a repository" />
         </SelectTrigger>
         <SelectContent>
