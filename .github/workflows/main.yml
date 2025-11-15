@@ -1,0 +1,28 @@
+name: Bedrock Action Agent
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup AWS (OIDC recommended)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::566824726150:role/agent-invoker
+          aws-region: us-east-1
+
+      - name: Run My Bedrock Action
+        uses: JorgeRojas827/bedrock-action-agent@main
+        with:
+          agent_id: ${{ secrets.BEDROCK_AGENT_ID }}
+          agent_alias_id: ${{ secrets.BEDROCK_AGENT_ALIAS }}
+          debug: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
